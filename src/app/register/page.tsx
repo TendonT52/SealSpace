@@ -44,9 +44,13 @@ export default function Register() {
           role: req.role,
         },
       })
-      const token = jwt.sign({ userId: user.id, role: req.role }, process.env.JWT_SECRET!)
+      const accessToken = jwt.sign({ userId: user.id, role: req.role }, process.env.JWT_SECRET!)
+      const refreshToken = jwt.sign({ userId: user.id, role: req.role }, process.env.JWT_SECRET!)
       return {
-        jwt: token,
+        jwt: {
+          access_token: accessToken,
+          refresh_token: refreshToken,
+        },
       }
     } catch (error) {
       if (error instanceof PrismaClientKnownRequestError) {

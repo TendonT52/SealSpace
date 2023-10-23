@@ -8,10 +8,9 @@ import Navbar from "@/components/navbar"
 export default function Home() {
   return (
     <div>
-      <Navbar role="host" />
       <h1>Home page</h1>
-      <Button text="primary" type="primary" />
-      <Button text="secondary" type="secondary" />
+      <Button text="primary" variant="primary" />
+      <Button text="secondary" variant="secondary" />
       <Input placeholder="placeholder" />
       <Input placeholder="placeholder" value="value" />
       <Input placeholder="placeholder" label="label" />
@@ -20,7 +19,7 @@ export default function Home() {
       <Input placeholder="placeholder" disable value="value" />
       <Input placeholder="placeholder" disable label="label" />
       <Input placeholder="placeholder" disable label="label" value="value" />
-      <Button text="link" type="link" />
+      <Button text="link" variant="link" />
       <Brand text="Seal Space" clickAble />
       <Card
         name="Samyan Mitrtown"
@@ -48,7 +47,6 @@ export default function Home() {
         amenities="High-speed Internet, Kitchen, Projector, Chill-out-zone"
         community="SMEs, Remote Workers, Startups"
       />
-      <Footer />
     </div>
   )
 }
