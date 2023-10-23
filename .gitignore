@@ -6,6 +6,7 @@
 .pnp.js
 
 # testing
+dev.db*
 /coverage
 
 # next.js
@@ -26,6 +27,7 @@ yarn-error.log*
 
 # local env files
 .env*.local
+.env
 
 # vercel
 .vercel

@@ -1,0 +1,68 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String        @id @default(uuid())
+  name        String
+  telephone   String
+  email       String        @unique
+  password    String
+  role        String
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  Session     Session[]
+  Space       Space[]
+  Reservation Reservation[]
+}
+
+model Session {
+  id        String   @id @default(uuid())
+  userId    String
+  expiresAt DateTime
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Space {
+  id          String        @id @default(uuid())
+  name        String        @unique
+  location    String
+  available   String
+  Rooms       Int
+  Amenities   String
+  Rules       String
+  Community   String
+  latitude    Float
+  longitude   Float
+  hostId      String
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  Host        User          @relation(fields: [hostId], references: [id], onDelete: Cascade)
+  Reservation Reservation[]
+
+  @@index([hostId])
+  @@index([latitude, longitude])
+}
+
+model Reservation {
+  id        String   @id @default(uuid())
+  userId    String
+  spaceId   String
+  date      DateTime
+  Rooms     Int
+  Amenities String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  User      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  Space     Space    @relation(fields: [spaceId], references: [id], onDelete: Cascade)
+
+  @@index([userId, date(sort: Desc)])
+}
