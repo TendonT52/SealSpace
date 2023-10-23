@@ -5,6 +5,7 @@ import CheckBox from "@/components/checkBox"
 import ErrorMessage from "@/components/errrorMessage"
 import Input from "@/components/input"
 import { Role } from "@/types/user"
+import jwt from "jsonwebtoken"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { ReqCreateUser, ResCreateUser, validateEmail, validateName, validatePassword, validateTelephone } from "./data"
@@ -90,9 +91,13 @@ export default function Form({ action }: { action: (req: ReqCreateUser) => Promi
     }
 
     const res = await action(req)
-    if (res.jwt) {
-      // localStorage.setItem("jwt", res.jwt)
-      // Cookie.set("jwt", res.jwt)
+    if (res.access_token) {
+      const { userId, role }: { userId: string; role: string } = jwt.decode(res.access_token) as {
+        userId: string
+        role: string
+      }
+      localStorage.setItem("userId", userId)
+      localStorage.setItem("role", role)
       return
     }
     if (res.error) {

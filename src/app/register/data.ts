@@ -44,8 +44,5 @@ export function validateRole(role: string): Validation {
 
 export interface ResCreateUser {
   error?: string
-  jwt?: {
-    access_token: string
-    refresh_token: string
-  }
+  access_token?: string
 }

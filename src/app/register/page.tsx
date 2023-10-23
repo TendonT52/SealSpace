@@ -1,6 +1,8 @@
 import prisma from "@/db"
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library"
 import jwt from "jsonwebtoken"
+import ms from "ms"
+import { cookies } from "next/headers"
 import {
   ReqCreateUser,
   ResCreateUser,
@@ -44,13 +46,24 @@ export default function Register() {
           role: req.role,
         },
       })
-      const accessToken = jwt.sign({ userId: user.id, role: req.role }, process.env.JWT_SECRET!)
-      const refreshToken = jwt.sign({ userId: user.id, role: req.role }, process.env.JWT_SECRET!)
-      return {
-        jwt: {
-          access_token: accessToken,
-          refresh_token: refreshToken,
+      const refresh = await prisma.session.create({
+        data: {
+          userId: user.id,
+          expiresAt: new Date(Date.now() + ms(process.env.REFRESH_TOKEN_EXP!)),
         },
+      })
+      const accessToken = jwt.sign({ userId: user.id, role: req.role }, process.env.JWT_ACCESS_TOKEN!, {
+        expiresIn: process.env.ACCESS_TOKEN_EXP,
+      })
+      const refreshToken = jwt.sign({ jwtId: refresh.id }, process.env.JWT_ACCESS_TOKEN!, {
+        expiresIn: process.env.REFRESH_TOKEN_EXP,
+      })
+      cookies().set("refresh_token", refreshToken, {
+        path: "/",
+        expires: new Date(Date.now() + ms(process.env.REFRESH_TOKEN_EXP!)),
+      })
+      return {
+        access_token: accessToken,
       }
     } catch (error) {
       if (error instanceof PrismaClientKnownRequestError) {
