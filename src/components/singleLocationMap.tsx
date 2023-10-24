@@ -7,21 +7,20 @@ import { styles } from './googleMapStyle';
 import Loading from './loading';
 
 export default function SingleLocationMap() {
-    const libraries = useMemo(() => ['places'], []);
+    const libraries =['places'];
     const [lat, setLat] = useState(13.7380895);
     const [lng, setLng] = useState(100.5272542);
 
     const mapCenter = useMemo(() => ({ lat: lat, lng: lng }), [lat, lng]);
 
-    const mapOptions = useMemo<google.maps.MapOptions>(
-        () => ({
-            disableDefaultUI: true,
-            clickableIcons: true,
-            scrollwheel: true,
-            styles: styles,
-        }),
-        []
-    );
+    const mapOptions: google.maps.MapOptions = {
+        disableDefaultUI: true,
+        clickableIcons: true,
+        scrollwheel: true,
+        styles: styles,
+        maxZoom: 17,
+        minZoom: 13,
+    };
 
     const onMapClick = (e: google.maps.MapMouseEvent) => {
         if (e.latLng) {
@@ -29,7 +28,6 @@ export default function SingleLocationMap() {
             setLng(e.latLng.lng());
             alert(`Lat: ${e.latLng.lat()} Lng: ${e.latLng.lng()}`);
         }
-        console.log(e);
     };
 
     const { isLoaded } = useLoadScript({
@@ -62,10 +60,9 @@ export default function SingleLocationMap() {
             center={mapCenter}
             mapTypeId={google.maps.MapTypeId.ROADMAP}
             mapContainerStyle={{ width: '382px', height: '220px', borderRadius: '20px', borderWidth: '1px' }}
-            onLoad={(map) => console.log('Map Loaded')}
             onClick={onMapClick}
         >
-            <MarkerF position={mapCenter} onLoad={() => console.log('Marker Loaded')} />
+            <MarkerF position={mapCenter} />
         </GoogleMap>
     </div>
   );

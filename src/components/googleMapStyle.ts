@@ -117,5 +117,3 @@ export const styles: google.maps.MapTypeStyle[] = [
         ]
     }
 ]
-
-export const SpecialMarker: google.maps.MapTypeStyle[] = []
