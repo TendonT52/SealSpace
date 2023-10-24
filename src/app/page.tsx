@@ -1,6 +1,8 @@
+import PlacesAutocomplete from "@/components/placesAutoComplete"
 import Brand from "@/components/brand"
 import Button from "@/components/button"
 import Card from "@/components/card"
+import Dropdown from "@/components/dropdown"
 import Footer from "@/components/footer"
 import Input from "@/components/input"
 import Navbar from "@/components/navbar"
@@ -9,6 +11,7 @@ export default function Home() {
   return (
     <div>
       <h1>Home page</h1>
+      <Dropdown />
       <Button text="primary" variant="primary" />
       <Button text="secondary" variant="secondary" />
       <Input placeholder="placeholder" />
