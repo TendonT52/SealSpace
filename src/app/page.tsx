@@ -6,11 +6,13 @@ import Dropdown from "@/components/dropdown"
 import Footer from "@/components/footer"
 import Input from "@/components/input"
 import Navbar from "@/components/navbar"
+import ReservationList from "@/components/reservationList"
 
 export default function Home() {
   return (
     <div>
       <h1>Home page</h1>
+      <ReservationList />
       <Dropdown />
       <Button text="primary" variant="primary" />
       <Button text="secondary" variant="secondary" />
