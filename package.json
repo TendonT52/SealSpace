@@ -10,14 +10,17 @@
   },
   "dependencies": {
     "@prisma/client": "^5.4.2",
+    "@react-google-maps/api": "^2.19.2",
     "@types/jsonwebtoken": "^9.0.4",
     "jsonwebtoken": "^9.0.2",
     "ms": "^2.1.3",
     "next": "13.5.4",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "use-places-autocomplete": "^4.0.1"
   },
   "devDependencies": {
+    "@types/haversine": "^1.1.7",
     "@types/ms": "^0.7.33",
     "@types/node": "^20",
     "@types/react": "^18",
