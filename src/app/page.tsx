@@ -1,57 +1,27 @@
-import PlacesAutocomplete from "@/components/placesAutoComplete"
 import Brand from "@/components/brand"
-import Button from "@/components/button"
-import Card from "@/components/card"
-import Dropdown from "@/components/dropdown"
-import Footer from "@/components/footer"
-import Input from "@/components/input"
-import Navbar from "@/components/navbar"
-import ReservationList from "@/components/reservationList"
-
+import Image from "next/image"
+import Link from "next/link"
 export default function Home() {
   return (
     <div>
-      <h1>Home page</h1>
-      <ReservationList />
-      <Dropdown />
-      <Button text="primary" variant="primary" />
-      <Button text="secondary" variant="secondary" />
-      <Input placeholder="placeholder" />
-      <Input placeholder="placeholder" value="value" />
-      <Input placeholder="placeholder" label="label" />
-      <Input placeholder="placeholder" label="label" value="value" />
-      <Input placeholder="placeholder" disable />
-      <Input placeholder="placeholder" disable value="value" />
-      <Input placeholder="placeholder" disable label="label" />
-      <Input placeholder="placeholder" disable label="label" value="value" />
-      <Button text="link" variant="link" />
-      <Brand text="Seal Space" clickAble />
-      <Card
-        name="Samyan Mitrtown"
-        location="Wang Mai, Pathum Wan, Bangkok 10330"
-        availability="24/7"
-        capacity="29"
-        amenities="High-speed Internet, Kitchen, Projector, Chill-out-zone"
-        community="SMEs, Remote Workers, Startups"
-      />
-      <Card
-        style="selected"
-        name="Samyan Mitrtown"
-        location="Wang Mai, Pathum Wan, Bangkok 10330"
-        availability="24/7"
-        capacity="29"
-        amenities="High-speed Internet, Kitchen, Projector, Chill-out-zone"
-        community="SMEs, Remote Workers, Startups"
-      />
-      <Card
-        style="reserve"
-        name="Samyan Mitrtown"
-        location="Wang Mai, Pathum Wan, Bangkok 10330"
-        availability="24/7"
-        capacity="29"
-        amenities="High-speed Internet, Kitchen, Projector, Chill-out-zone"
-        community="SMEs, Remote Workers, Startups"
-      />
+      <div className="my-16 flex flex-row items-center justify-center gap-x-16">
+        <div className="flex h-[177px] w-[579px] flex-col">
+          <div className="flex flex-col items-start">
+            <Brand text="Discover the Perfect" className="text-5xl/[72px]"/>
+            <Brand text="Co-Working space for you" className="text-5xl/[72px]"/>
+          </div>
+          <div className="flex flex-row-reverse text-allports">
+            <p className="font-roboto text-base font-normal"> 
+              For co-working hosts 
+              <Link href="/reservation" className="font-medium"> click </Link> 
+            </p>
+          </div>
+        </div>
+        <div>
+          <Image src="/home/map.png" width={465} height={420} alt="home-map" className="-rotate-6 rounded-default border border-allports"/>
+        </div>
+      </div>
+
     </div>
   )
 }
