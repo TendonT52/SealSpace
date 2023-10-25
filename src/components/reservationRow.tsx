@@ -7,11 +7,11 @@ export default function ReservationRow({item, selectedId, setSelectedId}: {item:
     if (selectedId == item.id) {
         return (
             <tr className="text-center text-navy">
-                <InputBox title={item.date.toString()} type="number"/>
-                <InputBox title={item.month} type="text"/>
-                <InputBox title={item.year.toString()} type="number"/>
-                <InputBox title={item.amenities} type="text"/>
-                <td>
+                <InputBox title={item.date.toString()} type="date"/>
+                <InputBox title={item.month} type="month"/>
+                <InputBox title={item.year.toString()} type="year"/>
+                <InputBox title={item.amenities} type="amenities"/>
+                <td colSpan={1}>
                     <div className="flex justify-center gap-1">
                         <button onClick={(e) => {setSelectedId("")}}>
                             <Image
@@ -36,16 +36,12 @@ export default function ReservationRow({item, selectedId, setSelectedId}: {item:
     } else {
         return (
             <tr className="text-center text-navy">
-                <td> {item.date} </td>
-                <td> {item.month} </td>
-                <td> {item.year} </td>
-                <td> {item.amenities} </td>
-                {/* <InputBox title={item.date.toString()} type="number"/>
-                <InputBox title={item.month} type="text"/>
-                <InputBox title={item.year.toString()} type="number"/>
-                <InputBox title={item.amenities} type="text"/> */}
+                <td colSpan={1}> {item.date} </td>
+                <td colSpan={1}> {item.month} </td>
+                <td colSpan={1}> {item.year} </td>
+                <td colSpan={2}> {item.amenities} </td>
 
-                <td>
+                <td colSpan={1}>
                     <div className="flex justify-center gap-1">
                         <button>
                             <Image
@@ -74,9 +70,20 @@ export default function ReservationRow({item, selectedId, setSelectedId}: {item:
 
 function InputBox({title, type}: {title: string | number, type: string}) {
     const [value, setValue] = useState<string | number>(title);
+    let width = 1
+    let typeInput = "text"
+    if (type == "date" || type == "year") {
+        typeInput = "number"
+    }
+    if (type == "amenities") {
+        width = 2
+    }
+    
     return (
-        <td> 
-            <input type={type} name="date" value={value} className="w-fit rounded-default border text-center" onChange={(e) => {setValue(e.target.value)}} /> 
+        <td colSpan={width}>
+            <div>
+                <input type={typeInput} name="date" value={value} className="w-full rounded-default border px-1 text-center" onChange={(e) => {setValue(e.target.value)}} /> 
+            </div>
         </td>
     )
 }

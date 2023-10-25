@@ -37,14 +37,14 @@ export default function ReservationList() {
     const [selectedId, setSelectedId] = useState<string>("")
 
     return (
-        <table className="w-full table-auto border-separate rounded-2xl border px-3.5 py-4" id="reservation-table">
+        <table className="w-full table-fixed border-separate rounded-2xl border px-3.5 py-4" id="reservation-table">
             <thead className="text-center font-roboto text-base text-allports">
                 <tr>
-                    <th> Date </th>
-                    <th> Month </th>
-                    <th> Year </th>
-                    <th> Amenities </th>
-                    <th> Action </th>
+                    <th colSpan={1}> Date </th>
+                    <th colSpan={1}> Month </th>
+                    <th colSpan={1}> Year </th>
+                    <th colSpan={2}> Amenities </th>
+                    <th colSpan={1}> Action </th>
                 </tr>
             </thead>
             <tbody>
