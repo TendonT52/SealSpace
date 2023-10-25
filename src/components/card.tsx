@@ -15,7 +15,7 @@ export default function Card({
   name: string
   location: string
   availability: string
-  capacity: string
+  capacity: number
   amenities: string
   community: string
   rules: string
@@ -38,15 +38,15 @@ export default function Card({
         {style === "reserve" && <Button text="Reserve" variant="secondary" className="text-ice hover:text-jetstream" />}
       </div>
       <div className="grid grid-cols-[auto_1fr] gap-x-2">
-        <p className={`font-normal ${textColor}`}>Availability</p>{" "}
+        <p className={`font-bold ${textColor}`}>Availability</p>{" "}
         <p className={`font-normal ${textColor}`}>{availability}</p>
-        <p className={`font-normal ${textColor}`}>Rooms</p>
+        <p className={`font-bold ${textColor}`}>Rooms</p>
         <p className={`font-normal ${textColor}`}>{capacity}</p>
-        <p className={`font-normal ${textColor}`}>Amenities</p>{" "}
+        <p className={`font-bold ${textColor}`}>Amenities</p>{" "}
         <p className={`font-normal ${textColor}`}>{amenities}</p>
-        <p className={`font-normal ${textColor}`}>Rules</p>{" "}
+        <p className={`font-bold ${textColor}`}>Rules</p>{" "}
         <p className={`font-normal ${textColor}`}>{rules}</p>
-        <p className={`font-normal ${textColor}`}>Community</p>{" "}
+        <p className={`font-bold ${textColor}`}>Community</p>{" "}
         <p className={`font-normal ${textColor}`}>{community}</p>
       </div>
       {style === "reserve" && (
