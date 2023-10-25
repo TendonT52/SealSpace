@@ -58,24 +58,28 @@ export default function Explore() {
     longitude: 100.5272542,
   } as Space);
   return (
-    <div className="mx-[89px] my-[33px]">
-      <div className="grid grid-cols-2 gap-x-3">
-        <Input name="Amenities" label="Amenities" placeholder="Amenities" />
-        <Input name="Location" label="Location" placeholder="Samyan" />
+    <div className="mx-[89px] my-[33px] flex min-h-screen flex-col">
+      <div className="flex justify-center">
+        <div className="container grid grid-cols-2 gap-x-3">
+          <Input name="Amenities" label="Amenities" placeholder="Amenities" />
+          <Input name="Location" label="Location" placeholder="Samyan" />
+        </div>
       </div>
 
-      <div className="mt-[29.5px] grid grid-cols-2 gap-x-2.5">
-        <div>
-          {spaces.map((space) => (
-            <div key={space.id} className="m-2.5 w-[480px]" onClick={() => setSelectedSpace(space)}>
-              <Card name={space.name} location={space.location} availability={space.available} capacity={space.Rooms}
-                amenities={space.Amenities} rules={space.Rules} community={space.Community} style={selectedSpace.id === space.id ? "reserve" : "default"}
-              />
-            </div>
-          ))}
-        </div>
-        <div>
+      <div className="flex justify-center">
+        <div className="container mt-[29.5px] grid grid-cols-2 gap-x-2.5">
+          <div>
+            {spaces.map((space) => (
+              <div key={space.id} className="m-2.5" onClick={() => setSelectedSpace(space)}>
+                <Card name={space.name} location={space.location} availability={space.available} capacity={space.Rooms}
+                  amenities={space.Amenities} rules={space.Rules} community={space.Community} style={selectedSpace.id === space.id ? "reserve" : "default"}
+                />
+              </div>
+            ))}
+          </div>
+          <div>
             <MultiLocationMap locations={spaces} selectedLocation={selectedSpace} />
+          </div>
         </div>
       </div>
     </div>
