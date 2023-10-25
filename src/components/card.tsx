@@ -8,6 +8,7 @@ export default function Card({
   availability,
   capacity,
   amenities,
+  rules,
   community,
 }: {
   style?: "default" | "selected" | "reserve"
@@ -17,6 +18,7 @@ export default function Card({
   capacity: string
   amenities: string
   community: string
+  rules: string
 }) {
   const textColor = style === "default" ? "text-cyan" : "text-ice"
   const date = new Date()
@@ -33,7 +35,7 @@ export default function Card({
           </h2>
           <p className={`text-sm leading-none ${style === "default" ? "text-cyan" : "text-ice"}`}>{location}</p>
         </div>
-        {style === "reserve" && <Button text="reserve" variant="secondary" className="text-ice hover:text-jetstream" />}
+        {style === "reserve" && <Button text="Reserve" variant="secondary" className="text-ice hover:text-jetstream" />}
       </div>
       <div className="grid grid-cols-[auto_1fr] gap-x-2">
         <p className={`font-normal ${textColor}`}>Availability</p>{" "}
@@ -42,6 +44,8 @@ export default function Card({
         <p className={`font-normal ${textColor}`}>{capacity}</p>
         <p className={`font-normal ${textColor}`}>Amenities</p>{" "}
         <p className={`font-normal ${textColor}`}>{amenities}</p>
+        <p className={`font-normal ${textColor}`}>Rules</p>{" "}
+        <p className={`font-normal ${textColor}`}>{rules}</p>
         <p className={`font-normal ${textColor}`}>Community</p>{" "}
         <p className={`font-normal ${textColor}`}>{community}</p>
       </div>

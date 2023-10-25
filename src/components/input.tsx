@@ -34,7 +34,7 @@ export default function Input({
         onChange={(e) => onChange(e)}
         className={`${
           alert ? "text-alert" : "text-allports"
-        } bg-stone font-roboto text-base placeholder:text-jetstream focus:border-transparent focus:outline-none`}
+        } w-full bg-stone font-roboto text-base placeholder:text-jetstream focus:border-transparent focus:outline-none`}
       />
     </div>
   )

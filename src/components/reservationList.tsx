@@ -1,39 +1,9 @@
 "use client"
 import { IReservationItem } from "@/types/reservation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ReservationRow from "./reservationRow";
 
-export default function ReservationList() {
-    const mockData: IReservationItem[] = [
-        {
-            id: "1",
-            date: 20,
-            month: "Dec",
-            year: 2022,
-            amenities: "High-speed Internet",
-        },
-        {
-            id: "2",
-            date: 20,
-            month: "Dec",
-            year: 2022,
-            amenities: "Projector",
-        },
-        {
-            id: "3",
-            date: 20,
-            month: "Dec",
-            year: 2022,
-            amenities: "High-speed Internet, Projector",
-        },
-        {
-            id: "4",
-            date: 19,
-            month: "Dec",
-            year: 2022,
-            amenities: "Kitchen, Projector",
-        },
-    ]
+export default function ReservationList({data}: {data: IReservationItem[]}) {
     const [selectedId, setSelectedId] = useState<string>("")
 
     return (
@@ -48,7 +18,7 @@ export default function ReservationList() {
                 </tr>
             </thead>
             <tbody>
-            {mockData.map((item) => {
+            {data.map((item) => {
                 return(
                     <ReservationRow item={item} selectedId={selectedId} setSelectedId={setSelectedId} key={item.id} />
                 )
