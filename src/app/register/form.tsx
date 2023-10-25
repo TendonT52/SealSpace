@@ -112,7 +112,7 @@ export default function Form({ action }: { action: (req: ReqCreateUser) => Promi
         className="inline-grid grid-cols-2 grid-rows-[auto_1fr] gap-2 rounded-default border border-allports bg-ice p-4"
         action={handleFormSubmit}
       >
-        <Brand text="Register" className="col-start-1 col-end-3" />
+        <Brand text="Register" className="col-start-1 col-end-3 text-center" />
         <Input
           name="name"
           label="Name"
