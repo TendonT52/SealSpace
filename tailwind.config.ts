@@ -15,7 +15,7 @@ const config: Config = {
       allports: "#1F6A7D",
       cyan: "#175579",
       navy: "#002F61",
-      alert : "#954545",
+      alert: "#954545",
       transparent: "transparent",
     },
     fontFamily: {
@@ -29,6 +29,9 @@ const config: Config = {
       borderRadius: {
         default: "20px",
       },
+      gridTemplateRows: {
+        '9': 'repeat(9, minmax(0, auto))',
+      }
     },
   },
   plugins: [],

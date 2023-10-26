@@ -23,9 +23,9 @@ export default function Input({
     <div
       className={`${
         alert ? "border-alert" : "border-allports"
-      } inline-flex gap-x-2 rounded-default border bg-stone px-3 ${className}`}
+      } inline-flex gap-x-2 rounded-default border bg-stone px-3 ${className} items-center`}
     >
-      <label className={`${alert ? "text-alert" : "text-cyan"} inline font-normal `}>{label}</label>
+      <label className={`${alert ? "text-alert" : "text-cyan"} inline text-center font-normal`}>{label}</label>
       <input
         name={name}
         type={type}
