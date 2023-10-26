@@ -42,7 +42,7 @@ export default function LocationForm() {
 
     return(
         <div>
-            <SingleLocationMap />
+            {/* <SingleLocationMap /> */}
             {/* <MultiLocationMap locations={locations} selectedLocation={selectedLocation} /> */}
         </div>
     )

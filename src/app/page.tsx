@@ -4,7 +4,7 @@ import Image from "next/image"
 import Link from "next/link"
 export default function Home() {
   return (
-    <div className="flex min-h-screen flex-col">
+    <div>
       <div className="flex justify-center">
         <div className="container my-16 flex flex-row items-center gap-x-16">
           <div className="flex flex-col">
