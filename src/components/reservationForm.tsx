@@ -3,8 +3,9 @@ import Brand from "./brand";
 import Input from "./input";
 import ReservationList from "./reservationList";
 import SingleLocationMap from "./singleLocationMap";
+import Button from "./button";
 
-export default function ReservationForm({reservation}: {reservation: Reservation}) {
+export default function ReservationSpaceForm({ reservation, title, type }: { reservation: Reservation, title: string, type: "own" | "admin" }) {
     const reservationDate: IReservationItem[] = []
     for (let i = 0; i < reservation.date.length; i++) {
         const date = (reservation.date)[i].toString().split(" ");
@@ -23,7 +24,15 @@ export default function ReservationForm({reservation}: {reservation: Reservation
                 className="grid grid-flow-col grid-cols-2 grid-rows-9 gap-5 rounded-default border border-allports bg-ice p-4"
                 action={handleFormSubmit}
             >
-                <Brand text="Your reserve space" className="col-span-2 text-center text-[28px]" />
+                <div className={`col-span-2 ${type == "admin" ? 'items-center justify-around' : 'items-center justify-center'} flex`}>
+                    <Brand text={title} className="w-full text-center text-[28px]" />
+                    {type == "admin" &&
+                        <div className="flex w-full items-end justify-end gap-x-4">
+                            <Button text="Update" variant="primary" type="submit" />
+                            <Button text="Delete" variant="secondary" />
+                        </div>
+                    }
+                </div>
                 <Input name="Title" type="text" label="Title" value={reservation.space.name} />
                 <Input name="Location" type="text" label="Location" value={reservation.space.location} />
                 <Input name="Availability" type="text" label="Availability" value={reservation.space.available} />

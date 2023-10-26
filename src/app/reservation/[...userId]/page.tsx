@@ -1,6 +1,6 @@
 "use client"
 import Card from "@/components/card";
-import ReservationForm from "@/components/reservationForm";
+import ReservationSpaceForm from "@/components/reservationForm";
 import { Reservation } from "@/types/reservation";
 import { useState } from "react";
 export default function Reservation() {
@@ -129,7 +129,7 @@ export default function Reservation() {
     const [selectedReservation, setSelectedReservation] = useState<Reservation>({} as Reservation);
     const [isClicked, setIsClicked] = useState(false);
     return (
-        <div className="flex justify-center">
+        <div className="mb-[33px] flex justify-center">
             <div className="container mt-[29.5px] grid grid-cols-2 gap-2.5">
                 <div className="col-span-1">
                     {reservations.map((reservation) => (
@@ -143,7 +143,7 @@ export default function Reservation() {
                 { isClicked &&
                 <div className="col-span-1">
                     <div className="sticky top-2">
-                        <ReservationForm reservation={selectedReservation} />
+                        <ReservationSpaceForm  title={"Your reserve space"} reservation={selectedReservation} type="own" />
                     </div>
                 </div>
                 }
