@@ -111,19 +111,21 @@ export default function Explore() {
         </div>
       </div>
 
-      <div className="mt-[29.5px] grid grid-cols-2">
-        <div className="col-span-1">
-          {spaces.map((space) => (
-            <div key={space.id} className="m-2.5" onClick={() => setSelectedSpace(space)}>
-              <Card name={space.name} location={space.location} availability={space.available} capacity={space.Rooms}
-                amenities={space.Amenities} rules={space.Rules} community={space.Community} style={selectedSpace.id === space.id ? "reserve" : "default"}
-              />
+      <div className="flex justify-center">
+        <div className="container mt-[29.5px] grid grid-cols-2">
+          <div className="col-span-1">
+            {spaces.map((space) => (
+              <div key={space.id} className="mb-2.5 mr-2.5" onClick={() => setSelectedSpace(space)}>
+                <Card name={space.name} location={space.location} availability={space.available} capacity={space.Rooms}
+                  amenities={space.Amenities} rules={space.Rules} community={space.Community} style={selectedSpace.id === space.id ? "reserve" : "default"}
+                />
+              </div>
+            ))}
+          </div>
+          <div className="col-span-1">
+            <div className="sticky top-2">
+              <MultiLocationMap locations={spaces} selectedLocation={selectedSpace} />
             </div>
-          ))}
-        </div>
-        <div className="col-span-1">
-          <div className="sticky top-2">
-            <MultiLocationMap locations={spaces} selectedLocation={selectedSpace} />
           </div>
         </div>
       </div>
