@@ -23,7 +23,7 @@ export default function Reservation() {
                 createdAt: new Date(),
                 updatedAt: new Date(),
             },
-            date: new Date('2023-11-01'),
+            date: [new Date('2023-11-01'), new Date('2023-12-01'), new Date('2023-12-02')],
             Rooms: 2,
             Amenities: 'WiFi, Parking',
             createdAt: new Date('2023-10-01'),
@@ -47,7 +47,7 @@ export default function Reservation() {
                 createdAt: new Date(),
                 updatedAt: new Date(),
             },
-            date: new Date('2023-11-05'),
+            date: [new Date('2023-01-01'), new Date('2023-02-01'), new Date('2023-03-01')],
             Rooms: 3,
             Amenities: 'Kitchen, Pool',
             createdAt: new Date('2023-10-02'),
@@ -71,7 +71,7 @@ export default function Reservation() {
                 createdAt: new Date(),
                 updatedAt: new Date(),
             },
-            date: new Date('2023-11-10'),
+            date: [new Date('2023-11-02'), new Date('2023-11-04'), new Date('2023-11-05')],
             Rooms: 1,
             Amenities: 'WiFi',
             createdAt: new Date('2023-10-03'),
@@ -95,7 +95,7 @@ export default function Reservation() {
                 createdAt: new Date(),
                 updatedAt: new Date(),
             },
-            date: new Date('2023-11-15'),
+            date: [new Date('2023-05-01'), new Date('2023-05-02'), new Date('2023-05-03')],
             Rooms: 4,
             Amenities: 'Parking, Gym',
             createdAt: new Date('2023-10-04'),
@@ -119,7 +119,7 @@ export default function Reservation() {
                 createdAt: new Date(),
                 updatedAt: new Date(),
             },
-            date: new Date('2023-11-20'),
+            date: [new Date('2023-11-01'), new Date('2023-12-01'), new Date('2023-12-22')],
             Rooms: 2,
             Amenities: 'WiFi, Kitchen',
             createdAt: new Date('2023-10-05'),
@@ -127,23 +127,26 @@ export default function Reservation() {
         },
     ];
     const [selectedReservation, setSelectedReservation] = useState<Reservation>({} as Reservation);
+    const [isClicked, setIsClicked] = useState(false);
     return (
         <div className="flex justify-center">
             <div className="container mt-[29.5px] grid grid-cols-2 gap-2.5">
                 <div className="col-span-1">
                     {reservations.map((reservation) => (
-                        <div key={reservation.id} className="mb-2.5" onClick={() => setSelectedReservation(reservation)}>
+                        <div key={reservation.id} className="mb-2.5" onClick={() => { setSelectedReservation(reservation); setIsClicked(true) }}>
                             <Card name={reservation.space.name} location={reservation.space.location} availability={reservation.space.available} capacity={reservation.space.Rooms}
                                 amenities={reservation.space.Amenities} rules={reservation.space.Rules} community={reservation.space.Community} style={selectedReservation.id === reservation.id ? "selected" : "default"}
                             />
                         </div>
                     ))}
                 </div>
+                { isClicked &&
                 <div className="col-span-1">
                     <div className="sticky top-2">
-                        <ReservationForm />
+                        <ReservationForm reservation={selectedReservation} />
                     </div>
                 </div>
+                }
             </div>
         </div>
     )
