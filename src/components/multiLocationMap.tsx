@@ -4,8 +4,9 @@ import haversine from "haversine";
 import { styles } from './googleMapStyle';
 import Loading from "./loading";
 import { Space } from ".prisma/client";
+import { useEffect, useState } from "react";
 
-export default function MultiLocationMap({ locations, selectedLocation }: { locations: Space[], selectedLocation: Space }) {
+export default function MultiLocationMap({ locations, selectedLocation }: { locations: Space[], selectedLocation: {lat: number, lng: number} }) {
     const libraries = ['places'];
     const mapOptions: google.maps.MapOptions = {
         disableDefaultUI: true,
@@ -15,6 +16,12 @@ export default function MultiLocationMap({ locations, selectedLocation }: { loca
         maxZoom: 17,
         minZoom: 13,
     };
+
+    const [mapCenter, setMapCenter] = useState<google.maps.LatLngLiteral>({ lat: 0, lng: 0 });
+    
+    useEffect(() => {
+        setMapCenter({ lat: selectedLocation.lat, lng: selectedLocation.lng });
+    }, [selectedLocation]);
 
     const { isLoaded } = useLoadScript({
         googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY as string,
@@ -32,20 +39,14 @@ export default function MultiLocationMap({ locations, selectedLocation }: { loca
             <GoogleMap
                 options={mapOptions}
                 zoom={15}
-
-                center={
-                    {
-                        lat: selectedLocation.latitude,
-                        lng: selectedLocation.longitude
-                    }
-                }
+                center={ mapCenter }
                 mapTypeId={google.maps.MapTypeId.ROADMAP}
                 mapContainerStyle={{ width: '690px', height: '637px', borderRadius: '20px', borderWidth: '1px' }}
             >
                 {
                     locations.filter((item) => {
-                        return item.latitude !== selectedLocation.latitude && item.longitude !== selectedLocation.longitude
-                            && haversine({ latitude: item.latitude, longitude: item.longitude }, { latitude: selectedLocation.latitude, longitude: selectedLocation.longitude }, { threshold: 10, unit: 'km' })
+                        return item.latitude !== selectedLocation.lat && item.longitude !== selectedLocation.lng
+                            && haversine({ latitude: item.latitude, longitude: item.longitude }, { latitude: selectedLocation.lat, longitude: selectedLocation.lng }, { threshold: 10, unit: 'km' })
                     }).map((item, index) => (
                         <MarkerF key={index} position={
                             {
@@ -56,8 +57,8 @@ export default function MultiLocationMap({ locations, selectedLocation }: { loca
                     ))
                 }
                 <MarkerF position={{
-                    lat: selectedLocation.latitude,
-                    lng: selectedLocation.longitude
+                    lat: mapCenter.lat,
+                    lng: mapCenter.lng
                 }} icon="https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png" />
             </GoogleMap>
         </div>

@@ -9,11 +9,11 @@ export default function  PlacesAutocomplete ({ onAddressSelect, }: { onAddressSe
   
     return (
         <div>
-            <div id="input-box" className={`inline-flex w-80 gap-x-2  ${ value == "" ? 'rounded-default': 'rounded-t-2xl' } border bg-stone px-3`}>
+            <div id="input-box" className={`inline-flex w-full gap-x-2  ${ value == "" ? 'rounded-default': 'rounded-t-2xl' } border bg-stone px-3`}>
                 <label className="font-normal text-cyan"> Location </label>
                 <input
                     value={value}
-                    className="bg-stone font-roboto text-base placeholder:text-jetstream focus:border-transparent focus:outline-none"
+                    className="w-full bg-stone font-roboto text-base placeholder:text-jetstream focus:border-transparent focus:outline-none"
                     disabled={!ready}
                     onChange={(e) => {
                         document.getElementById("input-box")?.classList.remove("rounded-default");
@@ -25,7 +25,7 @@ export default function  PlacesAutocomplete ({ onAddressSelect, }: { onAddressSe
             </div>
     
             {status === 'OK' && (
-                <div className="w-80">
+                <div className="w-full">
                     <div>{renderSuggestions({data, setValue, clearSuggestions, onAddressSelect})}</div>
                 </div>
             )}
