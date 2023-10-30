@@ -24,7 +24,9 @@ export default function CoWorking() {
                 createdAt: new Date(),
                 updatedAt: new Date(),
             },
-            date: [new Date('2023-11-01'), new Date('2023-12-01'), new Date('2023-12-02')],
+            reservation: [{id: "1", date: 1, month: "Dec", year: 2023, rooms: 2, amenities: "WiFi, Parking"}, 
+            {id: "2", date: 2, month: "Dec", year: 2023, rooms: 2, amenities: "WiFi, White Board"},
+            {id: "3", date: 3, month: "Dec", year: 2024, rooms: 3, amenities: "WiFi, Projector"}],
             Rooms: 2,
             Amenities: 'WiFi, Parking',
             createdAt: new Date('2023-10-01'),
@@ -48,7 +50,9 @@ export default function CoWorking() {
                 createdAt: new Date(),
                 updatedAt: new Date(),
             },
-            date: [new Date('2023-01-01'), new Date('2023-02-01'), new Date('2023-03-01')],
+            reservation: [{id: "4", date: 11, month: "Dec", year: 2023, rooms: 2, amenities: "WiFi, Parking"}, 
+            {id: "5", date: 22, month: "Dec", year: 2023, rooms: 2, amenities: "White Board"},
+            {id: "6", date: 33, month: "Dec", year: 2024, rooms: 3, amenities: "WiFi"}],
             Rooms: 3,
             Amenities: 'Kitchen, Pool',
             createdAt: new Date('2023-10-02'),
@@ -72,7 +76,9 @@ export default function CoWorking() {
                 createdAt: new Date(),
                 updatedAt: new Date(),
             },
-            date: [new Date('2023-11-02'), new Date('2023-11-04'), new Date('2023-11-05')],
+            reservation: [{id: "7", date: 1, month: "Nov", year: 2023, rooms: 2, amenities: "WiFi, Parking"}, 
+            {id: "8", date: 2, month: "Nov", year: 2023, rooms: 2, amenities: "WiFi, White Board"},
+            {id: "9", date: 3, month: "Nov", year: 2024, rooms: 3, amenities: "WiFi, Projector"}],
             Rooms: 1,
             Amenities: 'WiFi',
             createdAt: new Date('2023-10-03'),
@@ -96,7 +102,8 @@ export default function CoWorking() {
                 createdAt: new Date(),
                 updatedAt: new Date(),
             },
-            date: [new Date('2023-05-01'), new Date('2023-05-02'), new Date('2023-05-03')],
+            reservation: [{id: "10", date: 1, month: "Feb", year: 2023, rooms: 1, amenities: "WiFi, Parking"}, 
+            {id: "11", date: 2, month: "Feb", year: 2023, rooms: 2, amenities: "WiFi, White Board"}],
             Rooms: 4,
             Amenities: 'Parking, Gym',
             createdAt: new Date('2023-10-04'),
@@ -120,7 +127,8 @@ export default function CoWorking() {
                 createdAt: new Date(),
                 updatedAt: new Date(),
             },
-            date: [new Date('2023-11-01'), new Date('2023-12-01'), new Date('2023-12-22')],
+            reservation: [{id: "12", date: 9, month: "Feb", year: 2023, rooms: 1, amenities: "Parking"}, 
+            {id: "13", date: 21, month: "Feb", year: 2023, rooms: 2, amenities: "WiFi, White Board"}],
             Rooms: 2,
             Amenities: 'WiFi, Kitchen',
             createdAt: new Date('2023-10-05'),
@@ -141,13 +149,13 @@ export default function CoWorking() {
                         </div>
                     ))}
                     <div className="flex justify-center">
-                        <Button text="Create" variant="secondary" />
+                        <Button text="Create" variant="secondary" onClick={() => { setIsClicked(true) }} />
                     </div>
                 </div>
                 {isClicked &&
                     <div className="col-span-1">
                         <div className="sticky top-2">
-                            <ReservationSpaceForm title={"Edit Your Space"} reservation={selectedReservation} type="admin" />
+                            <ReservationSpaceForm title={"Edit Your Space"} data={selectedReservation} type="edit" />
                         </div>
                     </div>
                 }

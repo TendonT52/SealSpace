@@ -13,7 +13,7 @@ export interface Reservation {
     id: string
     userId: string
     space: Space
-    date: Date[]
+    reservation: IReservationItem[]
     Rooms: number
     Amenities: string
     createdAt: Date

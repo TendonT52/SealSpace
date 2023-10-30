@@ -11,6 +11,7 @@ export default function ReservationRow({item, selectedId, setSelectedId}: {item:
                 <InputBox title={item.month} type="month"/>
                 <InputBox title={item.year.toString()} type="year"/>
                 <InputBox title={item.amenities} type="amenities"/>
+                <InputBox title={item.rooms.toString()} type="rooms"/>
                 <td colSpan={1}>
                     <div className="flex justify-center gap-1">
                         <button onClick={(e) => {setSelectedId("")}}>
@@ -40,6 +41,7 @@ export default function ReservationRow({item, selectedId, setSelectedId}: {item:
                 <td colSpan={1}> {item.month} </td>
                 <td colSpan={1}> {item.year} </td>
                 <td colSpan={2}> {item.amenities} </td>
+                <td colSpan={1}> {item.rooms} </td>
 
                 <td colSpan={1}>
                     <div className="flex justify-center gap-1">
@@ -72,7 +74,7 @@ function InputBox({title, type}: {title: string | number, type: string}) {
     const [value, setValue] = useState<string | number>(title);
     let width = 1
     let typeInput = "text"
-    if (type == "date" || type == "year") {
+    if (type == "date" || type == "year" || type == "rooms") {
         typeInput = "number"
     }
     if (type == "amenities") {

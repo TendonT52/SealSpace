@@ -18,6 +18,7 @@ export default function ReservationList({ data, className }: { data: IReservatio
                         <th colSpan={1}> Month </th>
                         <th colSpan={1}> Year </th>
                         <th colSpan={2}> Amenities </th>
+                        <th colSpan={1}> Rooms </th>
                         <th colSpan={1}> Action </th>
                     </tr>
                 </thead>
