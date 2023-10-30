@@ -140,7 +140,9 @@ export default function CoWorking() {
                             />
                         </div>
                     ))}
-                    <Button text="Create" variant="secondary" />
+                    <div className="flex justify-center">
+                        <Button text="Create" variant="secondary" />
+                    </div>
                 </div>
                 {isClicked &&
                     <div className="col-span-1">

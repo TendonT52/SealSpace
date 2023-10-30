@@ -1,15 +1,21 @@
+import { useEffect } from "react";
 import usePlacesAutocomplete, { SetValue, ClearSuggestions } from "use-places-autocomplete";
 
-export default function  PlacesAutocomplete ({ onAddressSelect, }: { onAddressSelect?: (address: string) => void; }) {
+export default function  PlacesAutocomplete ({ onAddressSelect, initialValue }: { onAddressSelect?: (address: string) => void, initialValue?: string}) {
     const { ready, value, suggestions: { status, data }, setValue, clearSuggestions, } = usePlacesAutocomplete({
-        requestOptions: { componentRestrictions: { country: 'th' } }, // restrict to Thailand
+        requestOptions: { componentRestrictions: { country: 'th' } },
         debounce: 300,
         cache: 86400,
     });
+    useEffect(() => {
+        if (initialValue) {
+            setValue(initialValue, false);
+        }
+    }, [initialValue, setValue])
   
     return (
         <div>
-            <div id="input-box" className={`inline-flex w-full gap-x-2  ${ value == "" ? 'rounded-default': 'rounded-t-2xl' } border bg-stone px-3`}>
+            <div id="input-box" className={`inline-flex w-full gap-x-2  ${ value == "" || value == initialValue ? 'rounded-default': 'rounded-t-2xl' } border bg-stone px-3 text-cyan`}>
                 <label className="font-normal text-cyan"> Location </label>
                 <input
                     value={value}
