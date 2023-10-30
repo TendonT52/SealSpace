@@ -151,7 +151,7 @@ export default function Reservation() {
                 { isClicked &&
                 <div className="col-span-1">
                     <div className="sticky top-2">
-                        <ReservationSpaceForm  title={"Your reserve space"} data={selectedReservation} type="own" />
+                        <ReservationSpaceForm data={selectedReservation} type="own" />
                     </div>
                 </div>
                 }

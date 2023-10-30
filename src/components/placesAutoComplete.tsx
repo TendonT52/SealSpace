@@ -8,8 +8,10 @@ export default function PlacesAutocomplete({ onAddressSelect, initialValue }: { 
         cache: 86400,
     });
     useEffect(() => {
-        if (initialValue) {
+        if (initialValue)
             setValue(initialValue, false);
+        else {
+            setValue("", false);
         }
     }, [initialValue, setValue])
 

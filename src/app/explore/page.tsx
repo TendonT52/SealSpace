@@ -9,6 +9,8 @@ import { getGeocode, getLatLng } from 'use-places-autocomplete';
 import { useLoadScript } from "@react-google-maps/api";
 import Loading from "@/components/loading";
 
+const libraries = ['places'];
+
 export default function Explore() {
   const spaces: Space[] = [
     {
@@ -106,7 +108,6 @@ export default function Explore() {
   const [location, setLocation] = useState<{lat: number, lng: number}>({ lat:0, lng: 0} );
   const [amenities, setAmenities] = useState<string>('');
 
-  const libraries = ['places'];
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY as string,
     libraries: libraries as any,

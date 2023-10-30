@@ -6,8 +6,9 @@ import Loading from "./loading";
 import { Space } from ".prisma/client";
 import { useEffect, useState } from "react";
 
+const libraries = ['places'];
+
 export default function MultiLocationMap({ locations, selectedLocation }: { locations: Space[], selectedLocation: {lat: number, lng: number} }) {
-    const libraries = ['places'];
     const mapOptions: google.maps.MapOptions = {
         disableDefaultUI: true,
         clickableIcons: true,

@@ -6,8 +6,9 @@ import { getGeocode, getLatLng } from 'use-places-autocomplete';
 import { styles } from './googleMapStyle';
 import Loading from './loading';
 
+const libraries = ['places'];
+
 export default function SingleLocationMap({ latitude, longitude, editable }: { latitude?: number, longitude?: number, editable: boolean }) {
-    const libraries = ['places'];
     const [lat, setLat] = useState(0);
     const [lng, setLng] = useState(0);
 

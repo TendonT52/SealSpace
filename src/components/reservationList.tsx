@@ -23,7 +23,7 @@ export default function ReservationList({ data, className }: { data: IReservatio
                     </tr>
                 </thead>
                 <tbody>
-                    {data.map((item) => {
+                    {data?.map((item) => {
                         return (
                             <ReservationRow item={item} selectedId={selectedId} setSelectedId={setSelectedId} key={item.id} />
                         )
