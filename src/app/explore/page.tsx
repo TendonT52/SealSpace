@@ -104,6 +104,7 @@ export default function Explore() {
   ];
 
   const [location, setLocation] = useState<{lat: number, lng: number}>({ lat:0, lng: 0} );
+  const [amenities, setAmenities] = useState<string>('');
 
   const libraries = ['places'];
   const { isLoaded } = useLoadScript({
@@ -121,7 +122,7 @@ export default function Explore() {
     <div className="my-[33px]">
       <div className="flex justify-center">
         <div className="container grid grid-cols-2 gap-x-3">
-          <Input name="Amenities" label="Amenities" placeholder="Amenities" className="h-fit" />
+          <Input name="Amenities" label="Amenities" placeholder="Amenities" className="h-fit" type="text" value={amenities} onChange={(e) => {setAmenities(e.target.value)}} />
           <PlacesAutocomplete
             onAddressSelect={(address) => {
               getGeocode({ address: address }).then((results) => {
