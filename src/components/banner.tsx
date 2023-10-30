@@ -1,11 +1,16 @@
 "use client"
 import { useState } from "react"
 
-export default function Banner() {
+export default function Banner({
+  onClick = () => {},
+}: {
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void
+}) {
   const [isHovered, setIsHovered] = useState(false)
 
   return (
-    <div
+    <button
+      onClick={onClick}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       className={`group inline-flex items-center justify-center gap-3 px-1
@@ -77,6 +82,6 @@ export default function Banner() {
       >
         Seal Space
       </h1>
-    </div>
+    </button>
   )
 }
