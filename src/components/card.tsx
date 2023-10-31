@@ -55,11 +55,16 @@ export default function Card({
       </div>
       {style === "reserve" && (
         <div className="grid grid-cols-[3fr_3fr_4fr_3fr] gap-x-1.5 gap-y-1 pt-2">
-          <Input placeholder={date.getDate().toString()} label="Date" type="number" value={reservation.date?.toString()} onChange={(e) => setReservation({ ...reservation, date: parseInt(e.target.value, 10) })}/>
-          <Input placeholder={date.toLocaleDateString('en-US', { month: 'short' })} label="Month" type="text" value={reservation.month} onChange={(e) => setReservation({ ...reservation, month: e.target.value })} />
-          <Input placeholder={date.getFullYear().toString()} label="Year" type="number" value={reservation.year?.toString()} onChange={(e) => setReservation({ ...reservation, year: parseInt(e.target.value, 10) })} />
-          <Input placeholder="1" label="Rooms" type="number" value={reservation.rooms?.toString()} onChange={(e) => setReservation({ ...reservation, rooms: parseInt(e.target.value, 10) })} />
-          <Input placeholder={amenities} label="Amenities" className="col-start-1 col-end-5" type="text" value={reservation.amenities} onChange={(e) => setReservation({ ...reservation, amenities: e.target.value })} />
+          <Input placeholder={date.getDate().toString()} label="Date" type="number" value={reservation.date?.toString()} 
+            onChange={(e) => setReservation({ ...reservation, date: parseInt(e.target.value, 10) })} />
+          <Input placeholder={date.toLocaleDateString('en-US', { month: 'short' })} label="Month" type="text" value={reservation.month} 
+            onChange={(e) => setReservation({ ...reservation, month: e.target.value })} />
+          <Input placeholder={date.getFullYear().toString()} label="Year" type="number" value={reservation.year?.toString()} 
+            onChange={(e) => setReservation({ ...reservation, year: parseInt(e.target.value, 10) })} />
+          <Input placeholder="1" label="Rooms" type="number" value={reservation.rooms?.toString()} 
+            onChange={(e) => setReservation({ ...reservation, rooms: parseInt(e.target.value, 10) })} />
+          <Input placeholder={amenities} label="Amenities" className="col-start-1 col-end-5" type="text" value={reservation.amenities} 
+            onChange={(e) => setReservation({ ...reservation, amenities: e.target.value })} />
         </div>
       )}
     </div>
