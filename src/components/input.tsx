@@ -23,7 +23,7 @@ export default function Input({
     <div
       className={`${
         alert ? "border-alert" : "border-allports"
-      } inline-flex gap-x-2 rounded-default border bg-stone px-3 ${className} items-center`}
+      } inline-flex min-w-0 gap-x-2 rounded-default border bg-stone px-3 ${className} items-center overflow-hidden`}
     >
       <label className={`${alert ? "text-alert" : "text-cyan"} inline text-center font-normal`}>{label}</label>
       <input
