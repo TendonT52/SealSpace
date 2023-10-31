@@ -1,10 +1,10 @@
 "use server"
 import prisma from "@/db"
 import { Role } from "@/types/user"
+import { validateEmail, validateName, validatePassword, validateRole, validateTelephone } from "@/types/validation"
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library"
 import argon2 from "argon2"
 import { setAccessToken, setRefreshToken } from "../auth/jwt"
-import { validateEmail, validateName, validatePassword, validateRole, validateTelephone } from "@/types/validation"
 
 export interface ReqCreateUser {
   name: string
@@ -17,6 +17,9 @@ export interface ReqCreateUser {
 export interface ResCreateUser {
   ok: boolean
   message: string
+  data?: {
+    id: string
+  }
 }
 
 export async function createUser(req: ReqCreateUser): Promise<ResCreateUser> {
@@ -54,8 +57,9 @@ export async function createUser(req: ReqCreateUser): Promise<ResCreateUser> {
       message: validateRole(req.role).error,
     }
   }
+  let user
   try {
-    const user = await prisma.user.create({
+    user = await prisma.user.create({
       data: {
         name: req.name,
         telephone: req.telephone,
@@ -64,13 +68,6 @@ export async function createUser(req: ReqCreateUser): Promise<ResCreateUser> {
         role: req.role,
       },
     })
-    setAccessToken(user.id, req.role)
-    await setRefreshToken(user.id)
-
-    return {
-      ok: true,
-      message: "User created successfully",
-    }
   } catch (error) {
     if (error instanceof PrismaClientKnownRequestError) {
       if (error.code === "P2002") {
@@ -82,7 +79,27 @@ export async function createUser(req: ReqCreateUser): Promise<ResCreateUser> {
     }
     return {
       ok: false,
-      message: "There is something wrong with the server.",
+      message: `There is something wrong with the server ${error}`,
     }
+  }
+  try {
+    setAccessToken(user.id, req.role)
+    await setRefreshToken(user.id)
+  } catch (error) {
+    return {
+      ok: true,
+      message: "User created successfully with out set token in cookie",
+      data: {
+        id: user.id,
+      },
+    }
+  }
+
+  return {
+    ok: true,
+    message: "User created successfully",
+    data: {
+      id: user.id,
+    },
   }
 }
