@@ -10,8 +10,8 @@ export default function ReservationList({ data, className }: { data: IReservatio
     }, [data])
 
     return (
-        <div className={className}>
-            <table className="w-full table-fixed border-separate rounded-2xl border px-3.5 py-4" id="reservation-table">
+        <div className={className+" overflow-auto"}>
+            <table className="xs:w-[1000px] table-fixed border-separate rounded-2xl border px-3.5 py-4 md:w-full" id="reservation-table">
                 <thead className="text-center font-roboto text-base text-allports">
                     <tr>
                         <th colSpan={1}> Date </th>
