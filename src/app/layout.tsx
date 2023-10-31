@@ -1,7 +1,9 @@
+import { ResLogout, logout } from "@/api/auth/logout"
 import Footer from "@/components/footer"
 import Navbar from "@/components/navbar"
 import type { Metadata } from "next"
 import { Nunito, Roboto } from "next/font/google"
+import { AuthProvider } from "./authContext"
 import "./globals.css"
 
 export const metadata: Metadata = {
@@ -26,9 +28,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body className={`${roboto.variable} ${nunito.variable} bg-stone font-roboto`}>
         <div className="flex min-h-screen flex-col">
-          <Navbar role="guest" />
-          {children}
-          <Footer />
+          <AuthProvider>
+            <Navbar
+              // action={async () => {
+                // "use server"
+                // return await logout()
+              // }}
+            />
+            {children}
+            <Footer />
+          </AuthProvider>
         </div>
       </body>
     </html>

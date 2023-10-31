@@ -1,16 +1,20 @@
 "use client"
+import { ReqCreateUser, createUser } from "@/api/user/createUser"
 import Brand from "@/components/brand"
 import Button from "@/components/button"
 import CheckBox from "@/components/checkBox"
 import ErrorMessage from "@/components/errrorMessage"
 import Input from "@/components/input"
 import { Role } from "@/types/user"
-import jwt from "jsonwebtoken"
+import { getCookie } from "cookies-next"
 import { useRouter } from "next/navigation"
-import { useState } from "react"
-import { ReqCreateUser, ResCreateUser, validateEmail, validateName, validatePassword, validateTelephone } from "./data"
+import { useContext, useState } from "react"
+import { AuthContext } from "../authContext"
+import { validateEmail, validateName, validatePassword, validateTelephone } from "@/types/validation"
+import { decodeAccessToken } from "@/types/token"
 
-export default function Form({ action }: { action: (req: ReqCreateUser) => Promise<ResCreateUser> }) {
+export default function Form() {
+  const { userId, role, setAuth } = useContext(AuthContext)
   const router = useRouter()
   const [formState, setFormState] = useState({
     name: "",
@@ -90,20 +94,24 @@ export default function Form({ action }: { action: (req: ReqCreateUser) => Promi
       return
     }
 
-    const res = await action(req)
-    if (res.access_token) {
-      const { userId, role }: { userId: string; role: string } = jwt.decode(res.access_token) as {
-        userId: string
-        role: string
-      }
-      localStorage.setItem("userId", userId)
-      localStorage.setItem("role", role)
+    const res = await createUser(req)
+    if (!res.ok) {
+      setErrorMessage({ ...errorMessage, text: res.message })
       return
     }
-    if (res.error) {
-      setErrorMessage({ ...errorMessage, text: res.error })
+
+    const access_token = getCookie("access_token")
+    if (access_token === undefined) {
+      setErrorMessage({ ...errorMessage, text: "Something went wrong" })
       return
     }
+
+    const user = decodeAccessToken(access_token)
+    localStorage.setItem("userId", user.userId)
+    localStorage.setItem("role", user.role)
+    setAuth({ userId: user.userId, role: user.role as Role })
+    router.push("/explore")
+    return
   }
 
   return (

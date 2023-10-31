@@ -23,9 +23,9 @@ export default function Input({
     <div
       className={`${
         alert ? "border-alert" : "border-allports"
-      } inline-flex min-w-0 gap-x-2 rounded-default border bg-stone px-3 ${className} items-center overflow-hidden`}
+      } inline-flex items-center gap-x-2 rounded-default border bg-stone px-3 ${className}`}
     >
-      <label className={`${alert ? "text-alert" : "text-cyan"} inline text-center font-normal`}>{label}</label>
+      <label className={`${alert ? "text-alert" : "text-cyan"} inline text-center font-normal `}>{label}</label>
       <input
         name={name}
         type={type}
@@ -34,7 +34,7 @@ export default function Input({
         onChange={(e) => onChange(e)}
         className={`${
           alert ? "text-alert" : "text-allports"
-        } w-full bg-stone font-roboto text-base placeholder:text-jetstream focus:border-transparent focus:outline-none`}
+        } min-w-0 grow bg-stone font-roboto text-base placeholder:text-jetstream focus:border-transparent focus:outline-none`}
       />
     </div>
   )
