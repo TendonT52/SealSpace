@@ -1,5 +1,5 @@
 import prisma from "@/db"
-import { createUser } from "../src/api/user/createUser"
+import { createUser } from "../src/api/user/user"
 import { genReservationSeed } from "./reservation"
 import { spaceSeed } from "./spaceSeed"
 import { userHostSeed, userRenterSeed } from "./userSeed"

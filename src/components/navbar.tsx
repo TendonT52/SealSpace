@@ -21,7 +21,7 @@ export default function Navbar() {
           {(role === Role.HOST || role === Role.RENTER) && (
             <Button text="My reservation" variant="link" onClick={() => rounter.push("/reservation")} />
           )}
-          {role === Role.HOST && <Button text="My spaces" variant="link" />}
+          {role === Role.HOST && <Button text="My spaces" variant="link" onClick={() => rounter.push("/co-working")} />}
         </div>
         <div className="flex items-center gap-3">
           {role === Role.GUEST && (

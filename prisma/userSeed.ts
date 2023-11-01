@@ -1,4 +1,4 @@
-import { ReqCreateUser } from "@/api/user/createUser"
+import { ReqCreateUser } from "@/api/user/user"
 import { Role } from "@/types/user"
 
 export const userHostSeed: ReqCreateUser[] = [

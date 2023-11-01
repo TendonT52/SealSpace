@@ -1,17 +1,17 @@
 "use client"
-import { ReqCreateUser, createUser } from "@/api/user/createUser"
+import { ReqCreateUser, createUser } from "@/api/user/user"
 import Brand from "@/components/brand"
 import Button from "@/components/button"
 import CheckBox from "@/components/checkBox"
 import ErrorMessage from "@/components/errrorMessage"
 import Input from "@/components/input"
+import { decodeAccessToken } from "@/types/token"
 import { Role } from "@/types/user"
+import { validateEmail, validateName, validatePassword, validateTelephone } from "@/types/validation"
 import { getCookie } from "cookies-next"
 import { useRouter } from "next/navigation"
 import { useContext, useState } from "react"
 import { AuthContext } from "../authContext"
-import { validateEmail, validateName, validatePassword, validateTelephone } from "@/types/validation"
-import { decodeAccessToken } from "@/types/token"
 
 export default function Form() {
   const { userId, role, setAuth } = useContext(AuthContext)

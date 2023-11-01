@@ -1,4 +1,4 @@
-import { ReqCreateSpace } from "@/api/space/createSpace"
+import { ReqCreateSpace } from "@/api/space/space"
 
 export const spaceSeed: ReqCreateSpace[] = [
   {
