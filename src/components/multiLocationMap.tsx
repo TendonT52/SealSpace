@@ -47,7 +47,6 @@ export default function MultiLocationMap({ locations, selectedLocation }: { loca
                 {
                     locations.filter((item) => {
                         return item.latitude !== selectedLocation.lat && item.longitude !== selectedLocation.lng
-                            && haversine({ latitude: item.latitude, longitude: item.longitude }, { latitude: selectedLocation.lat, longitude: selectedLocation.lng }, { threshold: 10, unit: 'km' })
                     }).map((item, index) => (
                         <MarkerF key={index} position={
                             {

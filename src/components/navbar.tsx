@@ -8,7 +8,6 @@ import { deleteCookie } from "cookies-next"
 import { useRouter } from "next/navigation"
 import { useContext } from "react"
 
-// export default function Navbar({ action }: { action: () => Promise<ResLogout> }) {
 export default function Navbar() {
   const rounter = useRouter()
   const { userId, role, setAuth } = useContext(AuthContext)
