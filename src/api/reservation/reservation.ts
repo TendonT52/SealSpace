@@ -44,6 +44,13 @@ export async function createReservation(req: ReqCreateReservation): Promise<ResC
     }
   }
 
+  if (req.Rooms > 3) {
+    return {
+      ok: false,
+      message: "Rooms must be less than 3",
+    }
+  }
+
   const space = await prisma.reservation.create({
     data: {
       userId: claim.userId,
@@ -133,9 +140,15 @@ export async function updateReservation(id: string, req: ReqCreateReservation) {
       message: "Invalid access token",
     }
   }
-  let space
+  if (req.Rooms > 3) {
+    return {
+      ok: false,
+      message: "Rooms must be less than 3",
+    }
+  }
+  let reservation
   try {
-    space = await prisma.reservation.update({
+    reservation = await prisma.reservation.update({
       where: {
         id: id,
       },
@@ -157,7 +170,7 @@ export async function updateReservation(id: string, req: ReqCreateReservation) {
   return {
     ok: true,
     message: "Reservation updated successfully",
-    data: space,
+    data: reservation,
   }
 }
 

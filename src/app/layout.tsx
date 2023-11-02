@@ -29,12 +29,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={`${roboto.variable} ${nunito.variable} bg-stone font-roboto`}>
         <div className="flex min-h-screen flex-col">
           <AuthProvider>
-            <Navbar
-              // action={async () => {
-                // "use server"
-                // return await logout()
-              // }}
-            />
+            <Navbar/>
             {children}
             <Footer />
           </AuthProvider>

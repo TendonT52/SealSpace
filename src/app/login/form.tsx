@@ -19,7 +19,6 @@ export default function Form() {
 
   const handleFormSubmit = async () => {
     const res = await login(formState as ReqLogin)
-    console.log(res)
     if (!res.ok) {
       setErrorMessage({ ...errorMessage, text: res.message })
       return
@@ -35,7 +34,6 @@ export default function Form() {
     }
     localStorage.setItem("userId", user.userId)
     localStorage.setItem("role", user.role)
-    console.log(user)
     setAuth({ userId: user.userId, role: user.role as Role })
     router.push("/explore")
   }
