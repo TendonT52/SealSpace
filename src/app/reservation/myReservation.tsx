@@ -24,27 +24,27 @@ export default function MyReservation({ records }: {
             <div className="container mt-[29.5px] grid grid-cols-2 gap-2.5">
                 <ErrorMessage text={!records.ok ? records.message : ""} className="col-start-1 col-end-3 pt-4 text-center" />
                 <div className="col-span-1">
-                    {records.data.map((reservation) => (
+                    {records.data.map((record) => (
                         <div
-                            key={reservation.space.id}
+                            key={record.space.id}
                             className="mb-2.5"
                             onClick={() => {
                                 setSelectedReservation({
-                                    reservation: reservation,
-                                    spaceId: reservation.space.id
+                                    reservation: record,
+                                    spaceId: record.space.id
                                 })
                                 setIsClicked(true)
                             }}
                         >
                             <Card
-                                name={reservation.space.name}
-                                location={reservation.space.location}
-                                availability={reservation.space.available}
-                                capacity={reservation.space.Rooms}
-                                amenities={reservation.space.Amenities}
-                                rules={reservation.space.Rules}
-                                community={reservation.space.Community}
-                                style={selectedReservation.spaceId === reservation.space.id ? "selected" : "default"}
+                                name={record.space.name}
+                                location={record.space.location}
+                                availability={record.space.available}
+                                capacity={record.space.Rooms}
+                                amenities={record.space.Amenities}
+                                rules={record.space.Rules}
+                                community={record.space.Community}
+                                style={selectedReservation.spaceId === record.space.id ? "selected" : "default"}
                             />
                         </div>
                     ))}

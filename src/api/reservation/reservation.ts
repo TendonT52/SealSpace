@@ -186,6 +186,11 @@ export async function getAllReservation() {
     include: {
       Space: true,
     },
+    orderBy: {
+      Space: {
+        name: "asc",
+      },
+    },
   })
 
   let reservationMap = new Map<string, Reservation[]>(); // spaceId with reservation

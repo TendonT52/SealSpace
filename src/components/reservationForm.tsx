@@ -11,6 +11,10 @@ import { getGeocode, getLatLng } from 'use-places-autocomplete';
 import Loading from "./loading";
 import { useLoadScript } from "@react-google-maps/api";
 import { IReservation } from "@/types/reservation";
+import { createSpace, deleteSpace, updateSpace } from "@/api/space/space";
+import { refresh } from "@/api/auth/refresh";
+import { useRouter } from "next/navigation";
+import ErrorMessage from "./errrorMessage";
 
 const libraries = ['places'];
 
@@ -26,6 +30,65 @@ export default function ReservationSpaceForm({ data, type, spaceId }: { data: IR
         googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY as string,
         libraries: libraries as any,
     });
+    const [errorMessage, setErrorMessage] = useState({ text: "" })
+    const router = useRouter()
+
+    const handleCreateAction = async () => {
+        const res = await createSpace(coworking)
+        if (!res.ok) {
+            try {
+                const res = await refresh()
+            } catch (e) {
+                console.log(e)
+                router.push("/login")
+            }
+
+            const res = await createSpace(coworking)
+            if (!res.ok) {
+                setErrorMessage({ text: res.message })
+                return
+            }
+        }
+        window.location.reload();
+    }
+
+    const handleUpdateAction = async () => {
+        const res = await updateSpace(data.space.id, coworking)
+        if (!res.ok) {
+            try {
+                const res = await refresh()
+            } catch (e) {
+                console.log(e)
+                router.push("/login")
+            }
+
+            const res = await updateSpace(data.space.id, coworking)
+            if (!res.ok) {
+                setErrorMessage({ text: res.message })
+                return
+            }
+        }
+        window.location.reload();
+    }
+
+    const handleDeleteAction = async () => {
+        const res = await deleteSpace(data.space.id)
+        if (!res.ok) {
+            try {
+                const res = await refresh()
+            } catch (e) {
+                console.log(e)
+                router.push("/login")
+            }
+
+            const res = await deleteSpace(data.space.id)
+            if (!res.ok) {
+                setErrorMessage({ text: res.message })
+                return
+            }
+        }
+        window.location.reload();
+    }
 
     if (!isLoaded) {
         return (
@@ -35,6 +98,7 @@ export default function ReservationSpaceForm({ data, type, spaceId }: { data: IR
 
     return (
         <div>
+            <ErrorMessage text={errorMessage.text} className="col-start-1 col-end-3 pt-4 text-center" />
             <form
                 className="grid grid-flow-col grid-cols-2 grid-rows-9 gap-5 rounded-default border border-allports bg-ice p-4"
                 action={handleFormSubmit}
@@ -43,13 +107,13 @@ export default function ReservationSpaceForm({ data, type, spaceId }: { data: IR
                     <Brand text={type == "own" ? "Your reserve space" : type == "edit" ? "Edit Your Space" : "Create Your Space"} className="w-full text-center text-[28px]" />
                     {type == "edit" &&
                         <div className="flex w-full items-end justify-end gap-x-4">
-                            <Button text="Update" variant="primary" type="submit" />
-                            <Button text="Delete" variant="secondary" />
+                            <Button text="Update" variant="primary" type="submit" onClick={handleUpdateAction} />
+                            <Button text="Delete" variant="secondary" onClick={handleDeleteAction} />
                         </div>
                     }
                     {type == "create" &&
                         <div className="flex w-full items-end justify-end gap-x-4">
-                            <Button text="Create" variant="primary" type="submit" />
+                            <Button text="Create" variant="primary" type="submit" onClick={handleCreateAction} />
                         </div>
                     }
                 </div>
