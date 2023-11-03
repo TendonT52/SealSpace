@@ -10,11 +10,11 @@ import PlacesAutocomplete from "./placesAutoComplete";
 import { getGeocode, getLatLng } from 'use-places-autocomplete';
 import Loading from "./loading";
 import { useLoadScript } from "@react-google-maps/api";
-import { IMyReservation } from "@/types/reservation";
+import { IReservation } from "@/types/reservation";
 
 const libraries = ['places'];
 
-export default function ReservationSpaceForm({ data, type, spaceId }: { data: IMyReservation, type: "own" | "edit" | "create", spaceId: string }) {
+export default function ReservationSpaceForm({ data, type, spaceId }: { data: IReservation, type: "own" | "edit" | "create", spaceId: string }) {
     const handleFormSubmit = async () => { }
 
     const [coworking, setCoworking] = useState<Space>(data?.space)

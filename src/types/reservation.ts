@@ -9,7 +9,7 @@ export interface IReservationItem {
     rooms: number
 }
 
-export interface IMyReservation {
+export interface IReservation {
     space: Space,
     reservations: IReservationItem[]
 }

@@ -2,20 +2,20 @@
 import Card from "@/components/card"
 import ErrorMessage from "@/components/errrorMessage"
 import ReservationSpaceForm from "@/components/reservationForm"
-import { IMyReservation } from "@/types/reservation"
+import { IReservation } from "@/types/reservation"
 import { useState } from "react"
 export default function MyReservation({ records }: {
     records: {
         ok: boolean;
         message: string;
-        data: IMyReservation[];
+        data: IReservation[];
     }
 }) {
-    const [selectedReservation, setSelectedReservation] = useState<{ reservation: IMyReservation, spaceId: string }>(records.data.length > 0 ? {
+    const [selectedReservation, setSelectedReservation] = useState<{ reservation: IReservation, spaceId: string }>(records.data.length > 0 ? {
         reservation: records.data[0],
         spaceId: records.data[0].space.id
     } : {
-        reservation: {} as IMyReservation,
+        reservation: {} as IReservation,
         spaceId: ""
     })
     const [isClicked, setIsClicked] = useState(records.data.length > 0 ? true : false)
