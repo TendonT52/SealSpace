@@ -9,13 +9,7 @@ export interface IReservationItem {
     rooms: number
 }
 
-export interface Reservation {
-    id: string
-    userId: string
-    space: Space
-    reservation: IReservationItem[]
-    Rooms: number
-    Amenities: string
-    createdAt: Date
-    updatedAt: Date
+export interface IMyReservation {
+    space: Space,
+    reservations: IReservationItem[]
 }

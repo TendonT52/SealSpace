@@ -164,7 +164,6 @@ function isLeapYear(year: number): boolean {
 }
 
 function isDateValid(date: number, month: string, year: number): boolean {
-  console.log(date, month, year)
   if (["Jan", "Mar", "May", "Jul", "Aug", "Oct", "Dec"].includes(month)) {
     return date <= 31
   }

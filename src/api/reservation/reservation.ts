@@ -3,6 +3,8 @@ import prisma from "@/db"
 import { Role } from "@/types/user"
 import { cookies } from "next/headers"
 import { verifyAccessToken } from "../auth/decode"
+import { IReservationItem, IMyReservation } from "@/types/reservation"
+import { Reservation, Space } from "@prisma/client"
 
 export interface ReqCreateReservation {
   spaceId: string
@@ -68,13 +70,14 @@ export async function createReservation(req: ReqCreateReservation): Promise<ResC
   }
 }
 
-export async function getReservation(spaceId: string) {
+export async function getReservation() {
   const cookieStore = cookies()
   const token = cookieStore.get("access_token")
   if (token == undefined) {
     return {
       ok: false,
       message: "access token not found",
+      data: [],
     }
   }
 
@@ -85,40 +88,68 @@ export async function getReservation(spaceId: string) {
     return {
       ok: false,
       message: "Invalid access token",
+      data: [],
     }
   }
 
-  if (claim.role == Role.RENTER) {
-    const reservation = await prisma.reservation.findMany({
-      where: {
-        userId: claim.userId,
-      },
-    })
-    return {
-      ok: true,
-      message: "Reservation found",
-      data: reservation,
+  const reservation = await prisma.reservation.findMany({
+    include: {
+      Space: true,
+    },
+    where: {
+      userId: claim.userId,
+    },
+  })
+
+  let reservationMap = new Map<string, Reservation[]>(); // spaceId with reservation
+  let spaceMap = new Map<string, Space>(); // spaceId with space
+  for (let i = 0; i < reservation.length; i++) {
+    const res = reservation[i];
+    const space = res.Space;
+    if (space == undefined) {
+      continue;
+    }
+    if (reservationMap.has(space.id)) {
+      const arr = reservationMap.get(space.id);
+      if (arr == undefined) {
+        continue;
+      }
+      arr.push(res);
+      reservationMap.set(space.id, arr);
+    } else {
+      reservationMap.set(space.id, [res]);
+      spaceMap.set(space.id, space);
     }
   }
-  if (claim.role == Role.HOST) {
-    const reservation = await prisma.reservation.findMany({
-      include: {
-        Space: true,
-      },
-      where: {
-        Space: {
-          hostId: claim.userId,
-        },
-        spaceId: spaceId,
-      },
-    })
-    return {
-      ok: true,
-      message: "Reservation found",
-      data: reservation,
+
+  let result: IMyReservation[] = []
+  for (let spaceId of reservationMap.keys()) {
+    const space = spaceMap.get(spaceId);
+    const reservations = reservationMap.get(spaceId);
+    if (space == undefined || reservations == undefined) {
+      continue;
     }
+    let r: IMyReservation = {} as IMyReservation;
+    r.space = space;
+    r.reservations = reservations.map((res) => {
+      return {
+        id: res.id,
+        date: res.date.getDate(),
+        month: res.date.toLocaleDateString('en-US', { month: 'short' }),
+        year: res.date.getFullYear(),
+        amenities: res.Amenities,
+        rooms: res.Rooms,
+      } as IReservationItem
+    });
+
+    result.push(r);
   }
-  return {}
+
+  return {
+    ok: true,
+    message: "Reservation found",
+    data: result,
+  }
 }
 
 export async function updateReservation(id: string, req: ReqCreateReservation) {

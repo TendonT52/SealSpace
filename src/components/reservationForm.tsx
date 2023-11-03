@@ -1,5 +1,4 @@
 "use client"
-import { Reservation } from "@/types/reservation";
 import Brand from "./brand";
 import Input from "./input";
 import ReservationList from "./reservationList";
@@ -11,10 +10,11 @@ import PlacesAutocomplete from "./placesAutoComplete";
 import { getGeocode, getLatLng } from 'use-places-autocomplete';
 import Loading from "./loading";
 import { useLoadScript } from "@react-google-maps/api";
+import { IMyReservation } from "@/types/reservation";
 
 const libraries = ['places'];
 
-export default function ReservationSpaceForm({ data, type }: { data: Reservation, type: "own" | "edit" | "create" }) {
+export default function ReservationSpaceForm({ data, type }: { data: IMyReservation, type: "own" | "edit" | "create" }) {
     const handleFormSubmit = async () => { }
 
     const [coworking, setCoworking] = useState<Space>(data?.space)
@@ -72,7 +72,7 @@ export default function ReservationSpaceForm({ data, type }: { data: Reservation
                 <Input name="Amenities" type="text" label="Amenities" className="col-span-2" value={coworking?.Amenities} onChange={(e) => { type != "own" && setCoworking({ ...coworking, Amenities: e.target.value }) }} />
                 <Input name="Rules" type="text" label="Rules" className="col-span-2" value={coworking?.Rules} onChange={(e) => { type != "own" && setCoworking({ ...coworking, Rules: e.target.value }) }} />
                 <Input name="Community" type="text" label="Community" className="col-span-2" value={coworking?.Community} onChange={(e) => { type != "own" && setCoworking({ ...coworking, Community: e.target.value }) }} />
-                { type != "create" && <ReservationList data={data?.reservation} className="col-span-2" /> }
+                { type != "create" && <ReservationList data={data.reservations} className="col-span-2" /> }
                 <div className="row-span-4">
                     <div className="container h-full">
                         <SingleLocationMap latitude={coworking?.latitude} longitude={coworking?.longitude} editable={false} />
