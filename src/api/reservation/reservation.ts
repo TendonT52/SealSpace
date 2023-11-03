@@ -1,10 +1,10 @@
+"use server"
 import prisma from "@/db"
 import { Role } from "@/types/user"
 import { cookies } from "next/headers"
 import { verifyAccessToken } from "../auth/decode"
 
 export interface ReqCreateReservation {
-  userId: string
   spaceId: string
   date: Date
   Rooms: number

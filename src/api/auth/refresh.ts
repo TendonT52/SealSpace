@@ -1,3 +1,4 @@
+"use server"
 import prisma from "@/db"
 import { cookies } from "next/headers"
 import { verifyRefreshToken } from "./decode"

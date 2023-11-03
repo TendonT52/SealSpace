@@ -9,6 +9,7 @@ import { getGeocode, getLatLng } from 'use-places-autocomplete';
 import { useLoadScript } from "@react-google-maps/api";
 import Loading from "@/components/loading";
 import { getSpace } from "@/api/space/space";
+import ErrorMessage from "@/components/errrorMessage";
 
 const libraries = ['places'];
 
@@ -72,6 +73,7 @@ export default function Explore() {
           />
         </div>
       </div>
+      <ErrorMessage text={errorMessage.text} className="col-start-1 col-end-3 pt-4 text-center" />
 
       <div className="flex justify-center">
         <div className="container mt-[29.5px] grid grid-cols-2">
@@ -86,6 +88,7 @@ export default function Explore() {
               }}>
                 <Card name={space.name} location={space.location} availability={space.available} capacity={space.Rooms}
                   amenities={space.Amenities} rules={space.Rules} community={space.Community} style={selectedCard.id == space.id ? "reserve" : "default"}
+                  spaceId={space.id}
                 />
               </div>
             ))}
