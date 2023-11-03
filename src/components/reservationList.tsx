@@ -2,9 +2,11 @@
 import { IReservationItem } from "@/types/reservation";
 import { useEffect, useState } from "react";
 import ReservationRow from "./reservationRow";
+import ErrorMessage from "./errrorMessage";
 
-export default function ReservationList({ data, className }: { data: IReservationItem[], className?: string }) {
+export default function ReservationList({ data, className, spaceId }: { data: IReservationItem[], className?: string, spaceId: string }) {
     const [selectedId, setSelectedId] = useState<string>("")
+    const [errorMessage, setErrorMessage] = useState({ text: "" })
     useEffect(() => {
         setSelectedId("")
     }, [data])
@@ -25,11 +27,12 @@ export default function ReservationList({ data, className }: { data: IReservatio
                 <tbody>
                     {data?.map((item) => {
                         return (
-                            <ReservationRow item={item} selectedId={selectedId} setSelectedId={setSelectedId} key={item.id} />
+                            <ReservationRow item={item} selectedId={selectedId} setSelectedId={setSelectedId} key={item.id} setErrorMessage={setErrorMessage} spaceId={spaceId} />
                         )
                     })}
                 </tbody>
             </table>
+            <ErrorMessage text={errorMessage.text} className="col-start-1 col-end-3 pt-4 text-center" />
         </div>
     )
 }

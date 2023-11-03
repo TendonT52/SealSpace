@@ -6,6 +6,7 @@ import { useState } from "react"
 import { createReservation } from "@/api/reservation/reservation"
 import { refresh } from "@/api/auth/refresh"
 import { useRouter } from "next/navigation"
+import { isDateValid, monthShortToNumber } from "@/utils/date"
 
 export default function Card({
   style = "default",
@@ -63,6 +64,7 @@ export default function Card({
         console.log(res.message)
       } catch (e) {
         console.log(e)
+        router.push("/login")
       }
 
       res = await createReservation({  // retry create reservation
@@ -74,7 +76,6 @@ export default function Card({
 
       if (!res.ok) {
         setErrorMessage({ text: res.message })
-        router.push("/login")
         return
       }
 
@@ -129,54 +130,6 @@ export default function Card({
       )}
     </div>
   )
-}
-
-function monthShortToNumber(monthShort: string): number | null {
-  const months: { [key: string]: number } = {
-    'Jan': 1,
-    'Feb': 2,
-    'Mar': 3,
-    'Apr': 4,
-    'May': 5,
-    'Jun': 6,
-    'Jul': 7,
-    'Aug': 8,
-    'Sep': 9,
-    'Oct': 10,
-    'Nov': 11,
-    'Dec': 12,
-  }
-  const numericMonth = months[monthShort]
-
-  return numericMonth || null
-}
-
-function isLeapYear(year: number): boolean {
-  if (year % 4 !== 0) {
-    return false;
-  } else if (year % 100 !== 0) {
-    return true;
-  } else if (year % 400 !== 0) {
-    return false;
-  } else {
-    return true;
-  }
-}
-
-function isDateValid(date: number, month: string, year: number): boolean {
-  if (["Jan", "Mar", "May", "Jul", "Aug", "Oct", "Dec"].includes(month)) {
-    return date <= 31
-  }
-  if (["Apr", "Jun", "Sep", "Nov"].includes(month)) {
-    return date <= 30
-  }
-  if (month === "Feb") {
-    if (isLeapYear(year)) {
-      return date <= 29
-    }
-    return date <= 28
-  }
-  return false
 }
 
 function checkRequiredFields(reservation: IReservationItem): { ok: boolean, message: string } {

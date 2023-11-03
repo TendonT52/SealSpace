@@ -225,9 +225,9 @@ export async function deleteReservation(id: string) {
     }
   }
 
-  let space
+  let reservation
   try {
-    space = await prisma.reservation.delete({
+    reservation = await prisma.reservation.delete({
       where: {
         id: id,
         userId: claim.userId,
@@ -243,6 +243,6 @@ export async function deleteReservation(id: string) {
   return {
     ok: true,
     message: "Reservation deleted successfully",
-    data: space,
+    data: reservation,
   }
 }

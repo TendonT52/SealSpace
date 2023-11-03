@@ -27,6 +27,18 @@ export async function refresh(): Promise<ResRefresh> {
       message: "Invalid refresh token",
     }
   }
+
+  const checkSession = await prisma.session.findUnique({
+    where: {
+      id: claim.jwtId,
+    },
+  });
+  if (!checkSession) {
+    return {
+      ok: false,
+      message: "Cannot find session",
+    }
+  }
   const session = await prisma.session.delete({
     include: {
       user: true,
