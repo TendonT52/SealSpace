@@ -28,25 +28,14 @@ export async function refresh(): Promise<ResRefresh> {
     }
   }
 
-  const checkSession = await prisma.session.findUnique({
-    where: {
-      id: claim.jwtId,
-    },
-  });
-  if (!checkSession) {
-    return {
-      ok: false,
-      message: "Cannot find session",
-    }
-  }
-  const session = await prisma.session.delete({
+  const session = await prisma.session.findUnique({
     include: {
       user: true,
     },
     where: {
       id: claim.jwtId,
     },
-  })
+  });
 
   if (!session) {
     return {
