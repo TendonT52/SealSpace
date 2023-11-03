@@ -151,15 +151,46 @@ function monthShortToNumber(monthShort: string): number | null {
   return numericMonth || null
 }
 
+function isLeapYear(year: number): boolean {
+  if (year % 4 !== 0) {
+    return false;
+  } else if (year % 100 !== 0) {
+    return true;
+  } else if (year % 400 !== 0) {
+    return false;
+  } else {
+    return true;
+  }
+}
+
+function isDateValid(date: number, month: string, year: number): boolean {
+  console.log(date, month, year)
+  if (["Jan", "Mar", "May", "Jul", "Aug", "Oct", "Dec"].includes(month)) {
+    return date <= 31
+  }
+  if (["Apr", "Jun", "Sep", "Nov"].includes(month)) {
+    return date <= 30
+  }
+  if (month === "Feb") {
+    if (isLeapYear(year)) {
+      return date <= 29
+    }
+    return date <= 28
+  }
+  return false
+}
+
 function checkRequiredFields(reservation: IReservationItem): { ok: boolean, message: string } {
   const date = new Date()
   if (reservation.date === undefined || reservation.year === undefined || reservation.rooms === undefined || reservation.amenities === undefined) {
     return { ok: false, message: "Please fill all the fields" }
   }
+
   if (reservation.date === null || Number.isNaN(reservation.date) || reservation.year === null || Number.isNaN(reservation.year) || reservation.rooms === null || Number.isNaN(reservation.year) || reservation.amenities === null) {
     return { ok: false, message: "Please fill all the fields" }
   }
-  if (reservation.date < 0) {
+
+  if (reservation.date < 0 || reservation.date > 31 || !isDateValid(reservation.date, reservation.month, reservation.year)) { 
     return { ok: false, message: "Invalid date" }
   }
   if (monthShortToNumber(reservation.month) === null) {
@@ -169,8 +200,8 @@ function checkRequiredFields(reservation: IReservationItem): { ok: boolean, mess
     return { ok: false, message: "Year must be greater than or equal to current year" }
   }
 
-  if (reservation.rooms <= 0) {
-    return { ok: false, message: "Invalid number of rooms" }
+  if (reservation.rooms <= 0 || reservation.rooms > 3) {
+    return { ok: false, message: "number of rooms must be 1 - 3" }
   }
 
   if (reservation.amenities === "") {
