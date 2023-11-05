@@ -145,7 +145,7 @@ function checkRequiredFields(reservation: IReservationItem): { ok: boolean, mess
   if (reservation.date < 0 || reservation.date > 31 || !isDateValid(reservation.date, reservation.month, reservation.year)) { 
     return { ok: false, message: "Invalid date" }
   }
-  if (monthShortToNumber(reservation.month) === null) {
+  if (monthShortToNumber(reservation.month) === -1) {
     return { ok: false, message: "Invalid month" }
   }
   if (reservation.year < date.getFullYear()) {

@@ -98,7 +98,7 @@ export default function ReservationSpaceForm({ data, type, spaceId }: { data: IR
 
     return (
         <div>
-            <ErrorMessage text={errorMessage.text} className="col-start-1 col-end-3 pt-4 text-center" />
+            <ErrorMessage text={errorMessage.text} className="col-start-1 col-end-3 text-center" />
             <form
                 className="grid grid-flow-col grid-cols-2 grid-rows-9 gap-5 rounded-default border border-allports bg-ice p-4"
                 action={handleFormSubmit}

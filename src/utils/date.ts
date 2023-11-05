@@ -13,9 +13,14 @@ export function monthShortToNumber(monthShort: string): number | null {
         'Nov': 10,
         'Dec': 11,
     }
-    const numericMonth = months[monthShort]
+    let numericMonth: number;
+    if (monthShort in months) {
+        numericMonth = months[monthShort];
+      } else {
+        numericMonth = -1;
+      }
 
-    return numericMonth || null
+    return numericMonth
 }
 
 export function isLeapYear(year: number): boolean {
