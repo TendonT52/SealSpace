@@ -1,10 +1,10 @@
 "use server"
 import prisma from "@/db"
-import { Role } from "@/types/user"
 import { cookies } from "next/headers"
 import { verifyAccessToken } from "../auth/decode"
 import { IReservationItem, IReservation } from "@/types/reservation"
 import { Reservation, Space } from "@prisma/client"
+import { revalidatePath } from "next/cache"
 
 export interface ReqCreateReservation {
   spaceId: string
@@ -63,6 +63,7 @@ export async function createReservation(req: ReqCreateReservation): Promise<ResC
     },
   })
 
+  revalidatePath("/reservation")
   return {
     ok: true,
     message: "Space created successfully",

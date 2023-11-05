@@ -18,9 +18,17 @@ export default function ReservationRow({ item, selectedId, setSelectedId, setErr
         amenities: item.amenities,
         rooms: item.rooms
     })
+    const [currentValue, setCurrentValue] = useState<IReservationItem>({
+        id: item.id,
+        date: item.date,
+        month: item.month,
+        year: item.year,
+        amenities: item.amenities,
+        rooms: item.rooms
+    })
     const router = useRouter()
     const handleUpdateAction = async () => {
-        const {id, date, month, year, amenities, rooms} = reservation
+        const { id, date, month, year, amenities, rooms } = reservation
         const check = checkRequiredFields({ id: id, date: date, month: month, year: year, amenities: amenities, rooms: rooms })
         if (!check.ok) {
             setErrorMessage({ text: check.message })
@@ -53,7 +61,9 @@ export default function ReservationRow({ item, selectedId, setSelectedId, setErr
                 return
             }
         }
-        window.location.reload();
+        setCurrentValue(reservation)
+        setSelectedId("");
+        router.refresh()
     }
 
     const handleDeleteAction = async () => {
@@ -80,28 +90,28 @@ export default function ReservationRow({ item, selectedId, setSelectedId, setErr
         return (
             <tr className="text-center text-navy">
                 <td colSpan={1}>
-                    <input type="number" name="date" value={reservation.date} className="w-full rounded-default border px-1" 
-                    onChange={(e) => {setErrorMessage({ text: "" }); setReservation({ ...reservation, date: Number(e.target.value) })}} />
+                    <input type="number" name="date" value={reservation.date} className="w-full rounded-default border px-1"
+                        onChange={(e) => { setErrorMessage({ text: "" }); setReservation({ ...reservation, date: Number(e.target.value) }) }} />
                 </td>
                 <td colSpan={1}>
                     <input type="text" name="month" value={reservation.month} className="w-full rounded-default border px-1"
-                    onChange={(e) => {setErrorMessage({ text: "" }); setReservation({ ...reservation, month: e.target.value })}} />
+                        onChange={(e) => { setErrorMessage({ text: "" }); setReservation({ ...reservation, month: e.target.value }) }} />
                 </td>
                 <td colSpan={1}>
                     <input type="number" name="year" value={reservation.year} className="w-full rounded-default border px-1"
-                    onChange={(e) => {setErrorMessage({ text: "" }); setReservation({ ...reservation, year: Number(e.target.value) })}} />
+                        onChange={(e) => { setErrorMessage({ text: "" }); setReservation({ ...reservation, year: Number(e.target.value) }) }} />
                 </td>
                 <td colSpan={2}>
                     <input type="text" name="amenities" value={reservation.amenities} className="w-full rounded-default border px-1"
-                    onChange={(e) => {setErrorMessage({ text: "" }); setReservation({ ...reservation, amenities: e.target.value })}} />
+                        onChange={(e) => { setErrorMessage({ text: "" }); setReservation({ ...reservation, amenities: e.target.value }) }} />
                 </td>
                 <td colSpan={1}>
                     <input type="number" name="rooms" value={reservation.rooms} className="w-full rounded-default border px-1"
-                    onChange={(e) => {setErrorMessage({ text: "" }); setReservation({ ...reservation, rooms: Number(e.target.value) })}} />
+                        onChange={(e) => { setErrorMessage({ text: "" }); setReservation({ ...reservation, rooms: Number(e.target.value) }) }} />
                 </td>
                 <td colSpan={1}>
                     <div className="flex justify-center gap-1">
-                        <button onClick={(e) => { setSelectedId(""); handleUpdateAction() }}>
+                        <button onClick={(e) => { handleUpdateAction() }}>
                             <Image
                                 src="/icon/confirm.png"
                                 width={19}
@@ -109,7 +119,18 @@ export default function ReservationRow({ item, selectedId, setSelectedId, setErr
                                 alt="Confirm"
                             />
                         </button>
-                        <button onClick={(e) => { setSelectedId(""); }}>
+                        <button onClick={(e) => {
+                            setSelectedId(""); setReservation(
+                                {
+                                    id: currentValue.id,
+                                    date: currentValue.date,
+                                    month: currentValue.month,
+                                    year: currentValue.year,
+                                    amenities: currentValue.amenities,
+                                    rooms: currentValue.rooms
+                                }
+                            )
+                        }}>
                             <Image
                                 src="/icon/cancel.png"
                                 width={19}

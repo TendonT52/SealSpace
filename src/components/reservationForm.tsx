@@ -68,7 +68,7 @@ export default function ReservationSpaceForm({ data, type, spaceId }: { data: IR
                 return
             }
         }
-        window.location.reload();
+        router.refresh()
     }
 
     const handleDeleteAction = async () => {
