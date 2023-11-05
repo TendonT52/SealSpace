@@ -138,7 +138,7 @@ function checkRequiredFields(reservation: IReservationItem): { ok: boolean, mess
     return { ok: false, message: "Please fill all the fields" }
   }
 
-  if (reservation.date === null || Number.isNaN(reservation.date) || reservation.year === null || Number.isNaN(reservation.year) || reservation.rooms === null || Number.isNaN(reservation.year) || reservation.amenities === null) {
+  if (reservation.date === null || Number.isNaN(reservation.date) || reservation.year === null || Number.isNaN(reservation.year) || reservation.rooms === null || Number.isNaN(reservation.rooms) || reservation.amenities === null) {
     return { ok: false, message: "Please fill all the fields" }
   }
 

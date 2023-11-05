@@ -34,6 +34,11 @@ export default function ReservationSpaceForm({ data, type, spaceId }: { data: IR
     const router = useRouter()
 
     const handleCreateAction = async () => {
+        let { ok, message } = checkRequiredFields(coworking)
+        if (!ok) {
+            setErrorMessage({ text: message })
+            return
+        }
         const res = await createSpace(coworking)
         if (!res.ok) {
             try {
@@ -49,10 +54,16 @@ export default function ReservationSpaceForm({ data, type, spaceId }: { data: IR
                 return
             }
         }
+        setErrorMessage({ text: "" })
         window.location.reload();
     }
 
     const handleUpdateAction = async () => {
+        let { ok, message } = checkRequiredFields(coworking)
+        if (!ok) {
+            setErrorMessage({ text: message })
+            return
+        }
         const res = await updateSpace(data.space.id, coworking)
         if (!res.ok) {
             try {
@@ -68,6 +79,7 @@ export default function ReservationSpaceForm({ data, type, spaceId }: { data: IR
                 return
             }
         }
+        setErrorMessage({ text: "" })
         router.refresh()
     }
 
@@ -87,6 +99,7 @@ export default function ReservationSpaceForm({ data, type, spaceId }: { data: IR
                 return
             }
         }
+        setErrorMessage({ text: "" })
         window.location.reload();
     }
 
@@ -136,7 +149,7 @@ export default function ReservationSpaceForm({ data, type, spaceId }: { data: IR
                 <Input name="Amenities" type="text" label="Amenities" className="col-span-2" value={coworking?.Amenities} onChange={(e) => { type != "own" && setCoworking({ ...coworking, Amenities: e.target.value }) }} />
                 <Input name="Rules" type="text" label="Rules" className="col-span-2" value={coworking?.Rules} onChange={(e) => { type != "own" && setCoworking({ ...coworking, Rules: e.target.value }) }} />
                 <Input name="Community" type="text" label="Community" className="col-span-2" value={coworking?.Community} onChange={(e) => { type != "own" && setCoworking({ ...coworking, Community: e.target.value }) }} />
-                { type != "create" && <ReservationList data={data.reservations} className="col-span-2" spaceId={spaceId} /> }
+                {type != "create" && <ReservationList data={data.reservations} className="col-span-2" spaceId={spaceId} />}
                 <div className="row-span-4">
                     <div className="container h-full">
                         <SingleLocationMap latitude={coworking?.latitude} longitude={coworking?.longitude} editable={false} />
@@ -145,4 +158,20 @@ export default function ReservationSpaceForm({ data, type, spaceId }: { data: IR
             </form>
         </div>
     )
+}
+
+function checkRequiredFields(coworking: Space): { ok: boolean, message: string } {
+    if (coworking == undefined || coworking.name === undefined || coworking.location === undefined || coworking.available === undefined || coworking.Rooms === undefined || coworking.Amenities === undefined || coworking.Rules === undefined || coworking.Community === undefined) {
+        return { ok: false, message: "Please fill all the fields" }
+    }
+
+    if (coworking.name === null || coworking.location === null || coworking.available === null || coworking.Rooms === null || coworking.Amenities === null || coworking.Rules === null || coworking.Community === null) {
+        return { ok: false, message: "Please fill all the fields" }
+    }
+
+    if (coworking.name === "" || coworking.location === "" || coworking.available === "" || coworking.Rooms === 0 || Number.isNaN(coworking.Rooms) || coworking.Amenities === "" || coworking.Rules === "" || coworking.Community === "") {
+        return { ok: false, message: "Please fill all the fields" }
+    }
+
+    return { ok: true, message: "" }
 }
