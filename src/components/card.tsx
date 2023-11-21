@@ -2,11 +2,15 @@
 import Button from "@/components/button"
 import Input from "@/components/input"
 import { IReservationItem } from "@/types/reservation"
-import { useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { createReservation } from "@/api/reservation/reservation"
 import { refresh } from "@/api/auth/refresh"
 import { useRouter } from "next/navigation"
 import { isDateValid, monthShortToNumber } from "@/utils/date"
+import { AuthContext } from "@/app/authContext"
+import { Role } from "@/types/user"
+import Select from "./select"
+import { UserData, getAllUserName } from "@/api/user/user"
 
 export default function Card({
   style = "default",
@@ -31,13 +35,15 @@ export default function Card({
 }) {
   const textColor = style === "default" ? "text-cyan" : "text-ice"
   const date = new Date()
+  const { userId, role, setAuth } = useContext(AuthContext)
   const [reservation, setReservation] = useState<IReservationItem>({
     id: spaceId ? spaceId : "",
     date: date.getDate(),
     month: date.toLocaleDateString('en-US', { month: 'short' }),
     year: date.getFullYear(),
     rooms: 1,
-    amenities: amenities
+    amenities: amenities,
+    userId: userId
   })
   const [errorMessage, setErrorMessage] = useState({ text: "" })
   const router = useRouter()
@@ -56,7 +62,8 @@ export default function Card({
       spaceId: spaceId,
       date: reservationDate,
       Rooms: reservation.rooms,
-      Amenities: reservation.amenities
+      Amenities: reservation.amenities,
+      userId: reservation.userId ? reservation.userId : userId
     })
     if (!res.ok) {
       try {
@@ -71,7 +78,8 @@ export default function Card({
         spaceId: spaceId,
         date: reservationDate,
         Rooms: reservation.rooms,
-        Amenities: reservation.amenities
+        Amenities: reservation.amenities,
+        userId: reservation.userId ? reservation.userId : userId
       })
 
       if (!res.ok) {
@@ -82,6 +90,44 @@ export default function Card({
     }
     router.push("/reservation")
   }
+
+  const [userNames, setUserNames] = useState<UserData[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  useEffect(() => {
+    const fetchData = async () => {
+      let response
+      try {
+        response = await getAllUserName();
+        if (!response.ok || response.data === undefined) {
+          try {
+            const res = await refresh()
+            console.log(res.message)
+          } catch (e) {
+            console.log(e)
+            router.push("/login")
+          }
+
+          response = await getAllUserName();
+          if (!response.ok || response.data === undefined) {
+            console.log('Error fetching data:', response.message);
+            router.push("/login")
+            return;
+          }
+        }
+        setUserNames(response.data);
+
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (role == Role.HOST) {
+      fetchData();
+    }
+  }, []);
+
   return (
     <div
       className={`rounded-[20px] p-4
@@ -122,6 +168,8 @@ export default function Card({
               onChange={(e) => { setErrorMessage({ text: "" }); setReservation({ ...reservation, rooms: parseInt(e.target.value, 10) }) }} />
             <Input label="Amenities" className="col-start-1 col-end-5" type="text" value={reservation.amenities}
               onChange={(e) => { setErrorMessage({ text: "" }); setReservation({ ...reservation, amenities: e.target.value }) }} />
+            {role === Role.HOST && !loading && <Select className="col-start-1 col-end-5" defaultValue={userId} userNames={userNames}
+              onChange={(e) => { setErrorMessage({ text: "" }); setReservation({ ...reservation, userId: e.target.value }) }} />}
           </div>
           {errorMessage.text != "" && <div className="my-4 rounded-lg  bg-alert p-1 text-sm text-ice" >
             <span className="font-medium"> {errorMessage.text} </span>
@@ -142,7 +190,7 @@ function checkRequiredFields(reservation: IReservationItem): { ok: boolean, mess
     return { ok: false, message: "Please fill all the fields" }
   }
 
-  if (reservation.date < 0 || reservation.date > 31 || !isDateValid(reservation.date, reservation.month, reservation.year)) { 
+  if (reservation.date < 0 || reservation.date > 31 || !isDateValid(reservation.date, reservation.month, reservation.year)) {
     return { ok: false, message: "Invalid date" }
   }
   if (monthShortToNumber(reservation.month) === -1) {

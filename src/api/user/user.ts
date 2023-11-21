@@ -5,6 +5,8 @@ import { validateEmail, validateName, validatePassword, validateRole, validateTe
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library"
 import argon2 from "argon2"
 import { setAccessToken, setRefreshToken } from "../auth/jwt"
+import { cookies } from "next/headers"
+import { verifyAccessToken } from "../auth/decode"
 
 export interface ReqCreateUser {
   name: string
@@ -101,5 +103,65 @@ export async function createUser(req: ReqCreateUser): Promise<ResCreateUser> {
     data: {
       id: user.id,
     },
+  }
+}
+
+export interface UserData {
+  id: string
+  name: string
+}
+
+export interface ResAllUserName {
+  ok: boolean
+  message: string
+  data?: UserData[]
+}
+
+export async function getAllUserName(): Promise<ResAllUserName> {
+  const cookieStore = cookies()
+  const token = cookieStore.get("access_token")
+  if (token == undefined) {
+    return {
+      ok: false,
+      message: "access token not found",
+    }
+  }
+
+  let claim
+  try {
+    claim = verifyAccessToken(token.value)
+  } catch (error) {
+    return {
+      ok: false,
+      message: "Invalid access token",
+    }
+  }
+
+  if (claim.role !== Role.HOST) {
+    return {
+      ok: false,
+      message: "You are not authorized to perform this action",
+    }
+  }
+
+  let users
+  try {
+    users = await prisma.user.findMany({
+      select: {
+        id: true,
+        name: true,
+      },
+    })
+  } catch (error) {
+    return {
+      ok: false,
+      message: "There is something wrong with the server",
+    }
+  }
+
+  return {
+    ok: true,
+    message: "Users found",
+    data: users,
   }
 }

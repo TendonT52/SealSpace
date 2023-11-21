@@ -7,6 +7,7 @@ export interface IReservationItem {
     year: number
     amenities: string
     rooms: number
+    userId?: string
 }
 
 export interface IReservation {

@@ -5,12 +5,14 @@ import { verifyAccessToken } from "../auth/decode"
 import { IReservationItem, IReservation } from "@/types/reservation"
 import { Reservation, Space } from "@prisma/client"
 import { revalidatePath } from "next/cache"
+import { Role } from "@/types/user"
 
 export interface ReqCreateReservation {
   spaceId: string
   date: Date
   Rooms: number
   Amenities: string
+  userId: string
 }
 
 export interface ResCreateReservation {
@@ -55,7 +57,7 @@ export async function createReservation(req: ReqCreateReservation): Promise<ResC
 
   const space = await prisma.reservation.create({
     data: {
-      userId: claim.userId,
+      userId: claim.role == Role.RENTER ? claim.userId : req.userId,
       spaceId: req.spaceId,
       date: req.date,
       Rooms: req.Rooms,
