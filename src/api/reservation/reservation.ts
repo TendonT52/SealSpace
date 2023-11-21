@@ -187,7 +187,6 @@ export async function updateReservation(id: string, req: ReqCreateReservation) {
         id: id,
       },
       data: {
-        userId: claim.userId,
         spaceId: req.spaceId,
         date: req.date,
         Rooms: req.Rooms,
@@ -232,8 +231,7 @@ export async function deleteReservation(id: string) {
   try {
     reservation = await prisma.reservation.delete({
       where: {
-        id: id,
-        userId: claim.userId,
+        id: id
       },
     })
   } catch (error) {
