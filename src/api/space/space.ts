@@ -89,7 +89,22 @@ export async function getSpace(amenitie: string, lat: number, lng: number) {
   let amenitieSearch = amenitie.split(/[\s,]+/).map((s) => s.toLowerCase())
   let result = []
   for (let i = 0; i < spaces.length; i++) {
-    if (findAmenties(amenities[i], amenitieSearch) && locations.includes(spaces[i].location.toLowerCase())) {
+    if ((amenitie == "" && lat == 0 && lng == 0) && (findAmenties(amenities[i], amenitieSearch) && locations.includes(spaces[i].location.toLowerCase()))) {
+      result.push(spaces[i])
+    }
+  }
+  for (let i = 0; i < spaces.length; i++) {
+    if ((amenitie == "") && locations.includes(spaces[i].location.toLowerCase())) {
+      result.push(spaces[i])
+    }
+  }
+  for (let i = 0; i < spaces.length; i++) {
+    if ((lat == 0 && lng == 0) && (findAmenties(amenities[i], amenitieSearch))) {
+      result.push(spaces[i])
+    }
+  }
+  for (let i = 0; i < spaces.length; i++) {
+    if ((amenitie == "" && lat == 0 && lng == 0) || (findAmenties(amenities[i], amenitieSearch) && locations.includes(spaces[i].location.toLowerCase()))) {
       result.push(spaces[i])
     }
   }

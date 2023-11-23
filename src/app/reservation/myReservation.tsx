@@ -20,7 +20,7 @@ export default function MyReservation({ records }: {
     })
     const [isClicked, setIsClicked] = useState(records.data.length > 0 ? true : false)
     return (
-        <div className="mb-[33px] flex justify-center">
+        <div className="mb-[33px] flex min-h-screen justify-center">
             <div className="container mt-[29.5px] grid grid-cols-2 gap-2.5">
                 <ErrorMessage text={!records.ok ? records.message : ""} className="col-start-1 col-end-3 text-center" />
                 <div className="col-span-1">
