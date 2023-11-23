@@ -22,7 +22,7 @@ export default function MyReservation({ records }: {
     return (
         <div className="mb-[33px] flex min-h-screen justify-center">
             <div className="container mt-[29.5px] grid grid-cols-2 gap-2.5">
-                <ErrorMessage text={!records.ok ? records.message : ""} className="col-start-1 col-end-3 text-center" />
+                <ErrorMessage text={!records.ok ? records.message : ""} className={`col-start-1 col-end-3 text-center ${records.ok && "hidden"}`}  />
                 <div className="col-span-1">
                     {records.data.map((record) => (
                         <div
